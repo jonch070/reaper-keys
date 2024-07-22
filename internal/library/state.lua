@@ -18,23 +18,24 @@ function state.setModeVisualTrack()
 end
 
 function state.setModeVisualTimeline()
-  state_interface.setMode('visual_timeline')
-  if state_interface.getTimelineSelectionSide() == 'left' then
-    state_interface.setTimelineSelectionSide('right')
-  end
+	state_interface.setMode("visual_timeline")
+	reaper.Main_OnCommand(40625, 0)
+	-- if state_interface.getTimelineSelectionSide() == 'left' then
+	--   state_interface.setTimelineSelectionSide('right')
+	-- end
 end
 
 function state.switchTimelineSelectionSide()
-  local GoToStartOfSelection = 40630
-  local GoToEndOfSelection = 40631
+	local go_to_start_of_selection = 40630
+	local go_to_end_of_selection = 40631
 
-  if state_interface.getTimelineSelectionSide() == 'right' then
-    reaper.Main_OnCommand(GoToStartOfSelection, 0)
-    state_interface.setTimelineSelectionSide('left')
-  else
-    reaper.Main_OnCommand(GoToEndOfSelection, 0)
-    state_interface.setTimelineSelectionSide('right')
-  end
+	if state_interface.getTimelineSelectionSide() == "right" then
+		reaper.Main_OnCommand(go_to_start_of_selection, 0)
+		state_interface.setTimelineSelectionSide("left")
+	else
+		reaper.Main_OnCommand(go_to_end_of_selection, 0)
+		state_interface.setTimelineSelectionSide("right")
+	end
 end
 
 return state
