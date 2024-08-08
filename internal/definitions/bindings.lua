@@ -148,7 +148,7 @@ local global = { -- applies both to main and midi
         } },
         ["<SPC>"] = { "+leader commands", {
             N = "ShowNotesWindow",
-            ["<SPC>"] = "StartStop",
+            ["<return>"] = "StartStop",
             n = { "+notes", {
                 i = "ShowNotesItem",
                 t = "ShowNotesTrack",
