@@ -1,17 +1,21 @@
-#!/bin/sh
-ret=0; out=out.RPP; reaper="./reaper/reaper -new -nosplash"
+#!/bin/bash
+ret=0
 if [ $# -eq 0 ]; then
-    tests="*.rks"; timeout 6 $reaper 1>/dev/null 2>&1 # still evaluating
+    timeout 6 ./reaper/reaper -new -nosplash &>/dev/null # still evaluating
+    tests="*.rks"
 else
     tests=$@
 fi
 
-for test in $tests; do
+for test in *.rks; do
     echo "Running $test"
+    expected=${test%.rks}.RPP
+    out=out.RPP
 
-    $reaper -saveas $out 1>/dev/null 2>&1 &
-    pid=$(echo $!); sleep 1
-    xdotool search --onlyvisible --all reaper windowfocus 1>/dev/null 2>&1
+    ./reaper/reaper -saveas $out -new -nosplash &>/dev/null &
+    pid=$(echo $!)
+    sleep 1
+    xdotool search --onlyvisible --all reaper windowfocus &>/dev/null
 
     { <$test sed 's|"[^"]*$||' | tr ' ' '\n'
     } | while read cmd; do
@@ -21,14 +25,19 @@ for test in $tests; do
             xdotool type "$cmd"
         fi
         sleep .1
-    done
+    done <$test
 
     xdotool type " ps"; sleep .5; kill $pid
 
     ./compare ${test%.rks}.RPP $out
     diff_ret=$(echo $?)
     echo "Test exit code $diff_ret"
+    echo Stdout:
+    cat stdout
+    echo Stderr:
+    cat stderr
+
     ret=$(( ret + diff_ret ))
-    rm $out
+    rm $out stdout stderr
 done
 exit $ret

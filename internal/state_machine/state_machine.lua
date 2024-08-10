@@ -124,9 +124,8 @@ end
 local function input()
     local _, _, section_id, _, _, _, _, ctx = reaper.get_action_context()
     if ctx == "" then return end
-    local main_ctx = section_id == 0
     ---@type KeyPress
-    local hotkey = { context = main_ctx and "main" or "midi", key = ctxToState(ctx) }
+    local hotkey = { context = section_id == 0 and "main" or "midi", key = ctxToState(ctx) }
 
     log.info("Input: " .. format.line(hotkey))
     if config.show_feedback_window then feedback.clear() end
@@ -139,19 +138,15 @@ local function input()
     if not config.show_feedback_window then return end
 
     feedback.displayState(new_state)
+    feedback.update()
 
-    -- If window is floating, it's controlled by WM so we can't always defocus it
-    if not config.dock_feedback_window then return end
-
-    local defocus_window = main_ctx and actions.FocusTracks or actions.FocusMidiEditor
+    -- This works only when window is docked, nothing we can do otherwise
+    local defocus_window = section_id == 0
+        and actions.FocusTracks or actions.FocusMidiEditor
     reaper.Main_OnCommand(reaper.NamedCommandLookup(defocus_window), 0)
 
     -- When we insert track with feedback window closed, it steals focus and track is not renamed
-    if not main_ctx or not new_state or new_state.key_sequence ~= "" then return end
-    if not hotkey.key:lower():match "o" then return end
-    local keys = new_state.last_command.action_keys
-    if #keys ~= 1 or not keys[1]:match "^EnterTrack" then return end
-    reaper.Main_OnCommand(actions.RenameTrack, 0)
+    if hotkey.key:lower() == "o" then reaper.Main_OnCommand(actions.RenameTrack, 0) end
 end
 
 return input
