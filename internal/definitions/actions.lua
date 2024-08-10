@@ -737,7 +737,6 @@ return {
     PlayAndSkipTimeSelection = 40317,
     ToggleShowTrackRouting = 40293,
     ToggleShowMasterTrack = 41050,
-    QuitReaper
     ShowBigClock = 40378,
     ShowDocker = 40279,
     ShowEnvelopeManager = 42678,
