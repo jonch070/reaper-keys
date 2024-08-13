@@ -417,6 +417,7 @@ return {
     ProjectStart = custom.move.projectStart,
     ProjectTimeline = custom.select.innerProjectTimeline,
     Quantize = { 40009, midiCommand = true },
+    QuitReaper = 40004,
     RecallMark = { lib.marks.recall, registerAction = true },
     RecordConditional = { "Stop", "ToggleRecordConditional" },
     RecordMacro = { metaCommand = true, registerAction = true, registerOptional = true },
