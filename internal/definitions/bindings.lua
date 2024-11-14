@@ -184,6 +184,7 @@ local global = { -- applies both to main and midi
                 t = "ShowTrackManager",
                 T = "ShowTransport",
                 v = "ShowVirtualMidiKeyboard",
+                V = "ShowVideoWindow",
                 w = "ShowWiringDiagram",
                 x = "ShowMediaExplorer",
             } },

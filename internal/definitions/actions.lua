@@ -602,6 +602,7 @@ return {
     ShowPrevFx = { "_S&M_WNONLY1", prefixRepetitionCount = true },
     ShowProjectSettings = 40021,
     ShowTrackFreezeDetails = 41654,
+    ShowVideoWindow = 50125,
     SnappedPosition = custom.move.snap,
     AddAndNameSnapshot = "_SWSSNAPSHOT_NEWEDIT",
     CopyCurrentSnapshot = "_SWSSNAPSHOT_COPY",
