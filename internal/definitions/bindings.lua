@@ -148,6 +148,7 @@ local global = { -- applies both to main and midi
         } },
         ["<SPC>"] = { "+leader commands", {
             N = "ShowNotesWindow",
+            ["<SPC>"] = "StartStop",
             n = { "+notes", {
                 i = "ShowNotesItem",
                 t = "ShowNotesTrack",
@@ -356,6 +357,7 @@ local global = { -- applies both to main and midi
             } },
             ["g"] = { "+global", {
                 ["g"] = "SetGridDivision",
+                ["q"] = "QuitReaper",
                 ["r"] = "ResetControlDevices",
                 [","] = "ShowPreferences", -- remove in 2.1
                 ["S"] = "UnsoloAllTracks",
