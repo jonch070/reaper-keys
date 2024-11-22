@@ -29,6 +29,7 @@ return {
     ActivatePrevMidiItem = { 40834, midiCommand = true },
     AddFx = 40271,
     AddNextNoteToSelection = { 40422, midiCommand = true },
+    InsertMarker = 40171,
     AddPrevNoteToSelection = { 40421, midiCommand = true },
     InsertVirtualInstrumentTrack = 40701,
     InsertClickTrack = "_SWS_AWINSERTCLICKTRK",

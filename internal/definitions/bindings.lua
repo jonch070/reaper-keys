@@ -140,6 +140,7 @@ local global = { -- applies both to main and midi
             ["M"] = "InsertOrExtendMidiItem",
             ["t"] = "InsertTrackFromTemplate",
             ["v"] = "InsertVirtualInstrumentTrack",
+            ["<return>"] = "InsertMarker",
             ["c"] = "InsertClickTrack",
             ["1"] = "InsertTrackFromTemplateSlot1",
             ["2"] = "InsertTrackFromTemplateSlot2",
