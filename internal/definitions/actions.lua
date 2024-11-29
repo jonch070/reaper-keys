@@ -625,11 +625,12 @@ return {
     RecallSnapshot9 = "_SWSSNAPSHOT_GET9",
     SaveTracksToCurrentSnapshot = "_SWSSNAPSHOT_SAVE",
     DeleteAllSnapshots = "_SWSSNAPSHOT_DELALL",
-    SplitItemsAtEditCursor = {
-        "UnselectItems",
-        "SelectItemsUnderEditCursor",
-        "SplitItemsUnderEditCursor",
-        "UnselectItems" },
+    SplitItemsAtEditCursor = 40757, 
+    -- SplitItemsAtEditCursor = {
+    --     "UnselectItems",
+    --     "SelectItemsUnderEditCursor",
+    --     "SplitItemsUnderEditCursor",
+    --     "UnselectItems" },
     SplitItemsAtTimeSelection = custom.splitItemsAtTimeSelection,
     SplitItemsUnderEditCursor = 40757,
     StartOfSel = { 40440, midiCommand = true },
