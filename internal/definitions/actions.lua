@@ -705,6 +705,8 @@ return {
     TrackToggleSoloDefeat = 41199,
     TrackToggleMute = 40280,
     TrackWithNumber = custom.move.trackWithNumber,
+    TrackToggleHideTracksWithoutItemsFolder = "_S&M_CYCLACTION_8",
+    TrackToggleHideTracksWithoutItemsSelection = "_S&M_CYCLACTION_9",
     TrimItemLeftEdge = 41305,
     TrimItemRightEdge = 41311,
     TrimSelectedNoteLeftEdgeToEditCursor = 40790,
