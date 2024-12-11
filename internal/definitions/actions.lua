@@ -314,6 +314,7 @@ return {
     SplitItemAtTransients = "_XENAKIOS_SPLIT_ITEMSATRANSIENTS",
     ClearTransientGuides = 42027,
     AddStretchMarker = 41842,
+    AddSnapMarker = 40541,
     DeleteStretchMarker = 41859,
     NextStretchMarker = 41860,
     PrevStretchMarker = 41861,

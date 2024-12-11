@@ -248,6 +248,7 @@ local global = { -- applies both to main and midi
                 ["S"] = { "+stretch", {
                     ["a"] = "AddStretchMarker",
                     ["d"] = "DeleteStretchMarker",
+                    ["s"] = "AddSnapMarker",
                 } },
                 ["#"] = { "+fade", {
                     ["i"] = "CycleItemFadeInShape",
