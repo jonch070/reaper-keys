@@ -36,6 +36,7 @@ return {
     InsertTrackFromTemplate = 46000,
     InsertAutomationItem = 42082,
     InsertDefaultSizeNote = { 40051, midiCommand = true },
+    InsertEmptyItem = 40142,
     InsertNote = {
         "MidiTimeSelectionStart",
         "InsertDefaultSizeNote",
@@ -177,6 +178,7 @@ return {
     GoToStart = { 40036, midiCommand = true },
     GroupItems = 40032,
     HealItemsSplits = 40548,
+    HideTracks = 41593,
     CreateMeasures = 40338,
     CreateProjectTempo = 40843,
     InnerFolderAndParent = { "FolderParent", "SelectFolder" },

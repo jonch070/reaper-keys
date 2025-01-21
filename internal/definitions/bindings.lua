@@ -137,6 +137,7 @@ local global = { -- applies both to main and midi
         ["i"] = { "+insert", {
             ["f"] = "InsertMediaFile",
             ["m"] = "InsertMidiItem",
+            ["e"] = "InsertEmptyItem",
             ["M"] = "InsertOrExtendMidiItem",
             ["t"] = "InsertTrackFromTemplate",
             ["v"] = "InsertVirtualInstrumentTrack",
@@ -249,6 +250,7 @@ local global = { -- applies both to main and midi
                     ["a"] = "AddStretchMarker",
                     ["d"] = "DeleteStretchMarker",
                     ["s"] = "AddSnapMarker",
+                    
                 } },
                 ["#"] = { "+fade", {
                     ["i"] = "CycleItemFadeInShape",
@@ -294,6 +296,7 @@ local global = { -- applies both to main and midi
                 ["r"] = "RenameTrack",
                 ["n"] = "ResetTrackToNormal",
                 ["z"] = "MinimizeTracks",
+                ["h"] = "HideTracks",
                 ["M"] = "CycleRecordMonitor",
                 ["F"] = "CycleFolderState",
                 ["I"] = "SetTrackInputToMatchFirstSelected",
