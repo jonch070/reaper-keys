@@ -326,6 +326,12 @@ return {
         "SetTimeSelectionToLoopSelection",
         prefixRepetitionCount = true
     },
+    NextRegionCursorOnly = {
+        "SetLoopRegionToNextRegion",
+        "LoopStart",
+        -- No time selection - just move cursor
+        prefixRepetitionCount = true
+    },
     NextTab = { 40861, prefixRepetitionCount = true },
     NextTake = { 40125, prefixRepetitionCount = true },
     NextTrack = { 40285, prefixRepetitionCount = true },
@@ -427,6 +433,12 @@ return {
         "SetLoopRegionToPrevRegion",
         "LoopStart",
         "SetTimeSelectionToLoopSelection",
+        prefixRepetitionCount = true
+    },
+    PrevRegionCursorOnly = {
+        "SetLoopRegionToPrevRegion",
+        "LoopStart",
+        -- No time selection - just move cursor
         prefixRepetitionCount = true
     },
     PrevTab = { 40862, prefixRepetitionCount = true },
