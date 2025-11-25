@@ -92,10 +92,7 @@ local function ctxToKey(ctx)
     local use_aliases = not (not virt and 37 <= code and code <= 40)
     local key = use_aliases and aliases[code] or string.char(code)
     if not ctrl and not alt and not shift then return key end
-
-    -- If key is already wrapped in angle brackets (e.g., "<right>"), strip them to avoid nesting
-    local key_stripped = key:match("^<(.+)>$") or key
-    return ("<%s%s%s-%s>"):format(ctrl or "", alt or "", shift or "", key_stripped)
+    return ("<%s%s%s-%s>"):format(ctrl or "", alt or "", shift or "", key)
 end
 
 ---append the keypress to the key sequence and build a command.
