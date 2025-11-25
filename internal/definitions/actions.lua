@@ -329,7 +329,7 @@ return {
     NextRegionCursorOnly = {
         "SetLoopRegionToNextRegion",
         "LoopStart",
-        -- No time selection - just move cursor
+        "RemoveTimeSelection",  -- Clear the time selection that was created
         prefixRepetitionCount = true
     },
     NextTab = { 40861, prefixRepetitionCount = true },
@@ -438,7 +438,7 @@ return {
     PrevRegionCursorOnly = {
         "SetLoopRegionToPrevRegion",
         "LoopStart",
-        -- No time selection - just move cursor
+        "RemoveTimeSelection",  -- Clear the time selection that was created
         prefixRepetitionCount = true
     },
     PrevTab = { 40862, prefixRepetitionCount = true },
