@@ -26,8 +26,6 @@ local global = { -- applies both to main and midi
         ["<C-H>"] = "Prev4Measures",
         ["<C-L>"] = "Next4Measures",
         ["`"] = "MarkedTimelinePosition",
-        ["<S-right>"] = "NextRegion",
-        ["<S-left>"] = "PrevRegion", 
     },
     timeline_operator = {
         ["r"] = "Record",
@@ -55,8 +53,6 @@ local global = { -- applies both to main and midi
     visual_timeline_command = {
         ["v"] = "SetModeNormal",
         ["o"] = "SwitchTimelineSelectionSide",
-        ["<S-right>"] = "NextRegion",
-        ["<S-left>"] = "PrevRegion", 
     },
     command = {
         ["<M-x>"] = "ShowActionList",
