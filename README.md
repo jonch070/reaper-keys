@@ -155,6 +155,8 @@ chmod +x prepare copy-configs test
 ./prepare # This will create a local Reaper installation
 ./copy-configs # This will make current instance of reaper-keys testable
 ./test # This will run every test and compare with reference projects
+./test ololo.rks # This will run one test only
+./test ololo.rks -s # This will run test in slow mode, not removing the output file
 ```
 
 If you don't use X11 you can have a look at `.github/workflows/wf.yml` to see how x11 is
@@ -165,6 +167,8 @@ emulated with Xvfb.
 Each test is just a sequence of keys you press to achieve some result. One notable exception is
 a hotkey or a special key like "Return" (Enter) or "Backspace". In that case, prefix line with
 `&` and enter the key combination after, like `&Return`.
+
+Project files documentation: https://github.com/ReaTeam/Doc/blob/master/State%20Chunk%20Definitions
 
 ### Reporting performance issues
 

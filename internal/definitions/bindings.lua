@@ -72,7 +72,7 @@ local global = { -- applies both to main and midi
         ["<C-t>"] = "PlayFromEditCursorAndSoloTrackUnderMouse",
         ["F"] = "Pause",
 
-        ["<C-<SPC>>"] = "ShowMixer", -- possibly remove in 2.1
+        ["<C-<SPC>>"] = "ShowMixer", -- remove in 2.1
 
         ["."] = "RepeatLastCommand",
         ["<C-.>"] = "RepeatPenultimateAction",
@@ -245,11 +245,16 @@ local global = { -- applies both to main and midi
                 ["h"] = "HealItemsSplits",
                 ["s"] = "ToggleSoloItem",
                 ["B"] = "MoveItemContentToEditCursor",
-                ["x"] = { "+explode takes", {
-                    ["p"] = "ExplodeTakesInPlace",
-                    ["o"] = "ExplodeTakesInOrder",
-                    ["a"] = "ExplodeTakesInAcrossTracks"
-                } },
+                x = { "+explode takes", {
+                    p = "ExplodeTakesInPlace",
+                    o = "ExplodeTakesInOrder",
+                    a = "ExplodeTakesAcrossTracks"
+                }},
+                i = { "+implode items", {
+                    p = "ImplodeItemsOnSameTrackIntoTakes",
+                    o = "ImplodeItemsAcrossTracksIntoTakes",
+                    a = "ImplodeItemsAcrossTracksIntoOneTrack"
+                }},
                 ["S"] = { "+stretch", {
                     ["a"] = "AddStretchMarker",
                     ["d"] = "DeleteStretchMarker",
@@ -423,7 +428,7 @@ local global = { -- applies both to main and midi
 local main = {
     track_motion = {
         ["G"] = "LastTrack",
-        ["gg"] = "FirstTrack",
+        gg = "ToTrack",
         ["J"] = "NextFolderNear",
         ["K"] = "PrevFolderNear",
         ["/"] = "MatchedTrackForward",
@@ -506,11 +511,12 @@ local main = {
         ["B"] = "PrevBigItemStart",
         ["E"] = "NextBigItemEnd",
         ["W"] = "NextBigItemStart",
-        ["b"] = "PrevItemStart",
         ["<M-b>"] = "PrevEnvelopePoint",
-        ["e"] = "NextItemEnd",
-        ["w"] = "NextItemStart",
+        w = "NextItemStart",
+        e = "NextItemEnd",
+        b = "PrevItemStart",
         ["<M-w>"] = "NextEnvelopePoint",
+        ["^"] = "FirstItemStart",
         ["$"] = "LastItemEnd",
         ["("] = "TimeSelectionStart",
         [")"] = "TimeSelectionEnd",

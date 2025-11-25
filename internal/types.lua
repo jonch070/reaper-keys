@@ -28,12 +28,6 @@
 ---@field key string
 ---@field context Context
 
----@alias Action table | integer | string | function
-
----@alias ActionSequence { [1]:string[], [2]:fun(action: Action) }
-
----@alias ActionModes {all_modes: ActionSequence[], normal: ActionSequence[], visual_timeline: ActionSequence[]}
-
 ---@alias KeyCommand { [string]: string | {[1]:string, [2]:KeyCommand[]}}
 
 ---@class Definition
@@ -46,13 +40,3 @@
 ---@field track_selector? KeyCommand[] main context only
 ---@field visual_timeline_command? KeyCommand[]
 ---@field visual_track_command? KeyCommand[]  main context only
-
----@class Mark
----@field type "region"|"timeline_position"|"track_selection"
----@field index integer
----@field register string
----@field time integer
----@field position number
----@field left number
----@field right number
-

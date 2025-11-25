@@ -69,17 +69,24 @@ local gui = {
     }
 }
 
+---@class GeneralConfig
+---@field log_level "trace"|"debug"|"info"|"warn"|"error"|"fatal"
+
+---@type GeneralConfig
 local general = {
     show_start_up_message = true,
     dock_feedback_window = true,
     show_feedback_window = true,
     search_for_custom_config = false,
+    -- On some keyboards, F12 conflicts with { (S-[), F13 conflicts with } (S-]),
+    -- and F14 conflicts with | (S-\)
+    use_f12_f14 = false,
     profile = false,
     -- should operators in visual modes reset the selection or have it persist?
     persist_visual_timeline_selection = true,
     persist_visual_track_selection = false,
     allow_timeline_movement_in_visual_mode = true,
-    log_level = 'error', -- trace debug info warn user error fatal
+    log_level = 'error',
     repeatable_commands_action_type_match = { 'command', 'operator', 'meta_command', }
 }
 

@@ -1,22 +1,50 @@
 local lib = require 'library.library'                  -- functions specific to reaper-keys i.e. macros
-local custom = require 'custom_actions.custom_actions' -- custom functions which make use of the reaper api
+local movements = require 'movements'
+
+---@alias ActionPart integer | string | function
+
+---@class ActionTable
+---@field repetitions? number Repetitions supplied in actions.lua
+---@field prefixedRepetitions? number Repetitions supplied by user
+---@field registerAction? boolean A (mark) function that operates on a
+--  register, single character, passed as argument
+---@field midiCommand? boolean
+---@field toTrack? boolean Special case for toTrack function
+
+---@alias Action ActionPart | ActionTable
+
+---@alias ActionSequence { [1]:string[], [2]:fun(action: Action) }
+
+---@alias ActionModes {all_modes: ActionSequence[], normal: ActionSequence[], visual_timeline: ActionSequence[]}
 
 -- Here are some predefined commands that you can use in bindings.lua e.g to map
 -- abcd => ActivateNextMidiItem instead of abcd => 40833.
 --
 -- You can add your own actions. The following forms are possible:
 --
--- Foo = 1337 -- run action 1337
--- Foo = "Fooable" -- run action with custom name Fooable (e.g. SWS actions are usually named).
---       You can refer to other actions.
--- Foo = {"Foo1", "Foo2"} -- run a sequence of actions: first Foo1, then Foo2
+-- Run action 1337
+-- Foo = 1337
+--
+-- Run action with custom name Fooable, e.g. SWS actions are usually named
+-- You can refer to other actions as well
+-- Foo = "Fooable"
+--
+-- Run a sequence of actions: first Foo1, then Foo2
+-- Foo = {"Foo1", "Foo2"}
 -- Foo = lib.foo.bar -- run a lua function
 --
 -- You can specify flags for every action:
 -- Foo = {1337, midiCommand = true}
+--
+-- User can supply repetitions for action. Multipled by "repetitions" field
 -- Foo = {1337, prefixRepetitionCount = true}
+--
+-- Predefined repetitions for action. Multiplied by "prefixRepetitionCount" if enabled
 -- Foo = {1337, repetitions = 100500}
+--
 -- Foo = {1337, metaCommand = true}
+--
+-- A (mark) function that operates on a register - a single key passed as argument
 -- Foo = {1337, registerAction = true}
 --
 -- Naming conventions:
@@ -61,20 +89,20 @@ return {
     ArmTracks = 9,
     AutomationItem = 42197,
     AutoRenameTake = "_XENAKIOS_AUTORENAMETAKES",
-    BigItem = custom.select.innerBigItem,
+    BigItem = movements.innerBigItem,
     CleanProjectDirectory = 40098,
     ClearAllEnvelope = "_S&M_REMOVE_ALLENVS",
     ClearAllRecordArm = 40491,
     ClearEnvelope = 40065,
     ClearNoteSelection = { 40214, midiCommand = true },
-    ClearTimeSelection = custom.clearTimeSelection,
+    ClearTimeSelection = movements.clearTimeSelection,
     CloseAllFxChainsAndWindows = { "CloseAllFx", "CloseAllFxChain" },
     CloseAllFxChain = "_S&M_WNCLS4",
     CloseAllFx = "_S&M_WNCLS3",
     CloseFloatingFxWindows = "_S&M_WNCLS3",
     PlayFromMouseAndSoloTrack = "_BR_CONT_PLAY_MOUSE_SOLO_TRACK",
     PlayFromEditCursorAndSoloTrackUnderMouse = "_BR_TOGGLE_PLAY_EDIT_SOLO_TRACK",
-    PrintLog = custom.printLog,
+    PrintLog = movements.printLog,
     CloseFx = { "CloseFxChains", "CloseFxWindows" },
     CloseFxWindows = "_S&M_WNCLS5",
     CloseFxChains = "_S&M_WNCLS4",
@@ -142,8 +170,10 @@ return {
     DeleteTimeSignatureMarker = 40617,
     NextTimeSignatureMarker = 41821,
     PrevTimeSignatureMarker = 41820,
-    FirstItemStart = custom.move.firstItemStart,
-    FirstTrack = { custom.move.firstTrack, "ScrollToSelectedTracks" },
+    -- Works with multiple tracks selection
+    FirstItemStart = movements.firstItemStart,
+    FirstTrack = { movements.firstTrack, "ScrollToSelectedTracks" },
+    ToTrack = { prefixRepetitionCount = true, toTrack = true },
     GlueItemsIgnoringTimeSelection = 40362,
     FitByLoopingNoExtend = {
         "OnlySelectItemsCrossingTimeAndTrackSelection",
@@ -190,13 +220,13 @@ return {
     InvertVoicingDownwards = { 40910, midiCommand = true, prefixRepetitionCount = true },
     InvertVoicingUpwards = { 40909, midiCommand = true, prefixRepetitionCount = true },
     ApplyFxToItem = 40209,
-    Item = custom.select.innerItem,
+    Item = movements.innerItem,
     ItemNormalize = 40108,
     ItemSplitSelRight = "_SWS_AWSPLITXFADELEFT",
     JoinNotes = { "SelectNotes", "JoinSelectedNotes" },
     JoinSelectedNotes = { 40456, midiCommand = true },
-    LastItemEnd = custom.move.lastItemEnd,
-    LastTrack = { custom.move.lastTrack, "ScrollToSelectedTracks" },
+    LastItemEnd = movements.lastItemEnd,
+    LastTrack = { movements.lastTrack, "ScrollToSelectedTracks" },
     Left10Pix = { "_XENAKIOS_MOVECUR10PIX_LEFT", prefixRepetitionCount = true },
     Left40Pix = { "Left10Pix", repetitions = 4, prefixRepetitionCount = true },
     LeftGridDivision = { 40646, prefixRepetitionCount = true },
@@ -273,13 +303,17 @@ return {
     Next4Measures = { "NextMeasure", repetitions = 4, prefixRepetitionCount = true },
     Next5Track = { "NextTrack", repetitions = 5, prefixRepetitionCount = true },
     NextBeat = 40841,
-    NextBigItemEnd = { custom.move.nextBigItemEnd, prefixRepetitionCount = true },
-    NextBigItemStart = { custom.move.nextBigItemStart, prefixRepetitionCount = true },
+    NextBigItemEnd = { movements.nextBigItemEnd, prefixRepetitionCount = true },
+    NextBigItemStart = { movements.nextBigItemStart, prefixRepetitionCount = true },
     NextEnvelope = { 41864, prefixRepetitionCount = true },
     NextEnvelopePoint = { "_SWS_BRMOVEEDITTONEXTENV", prefixRepetitionCount = true },
     NextFolderNear = { "_SWS_SELNEARESTNEXTFOLDER", "ScrollToSelectedTracks", prefixRepetitionCount = true },
-    NextItemEnd = { custom.move.nextItemEnd, prefixRepetitionCount = true },
-    NextItemStart = { custom.move.nextItemStart, prefixRepetitionCount = true },
+    -- Jump to item end if not on end, jump to next item end otherwise.
+    -- If cursor is inside multiple items i.e. multiple tracks are selected: (from top track to bottom track)
+    --  If not on end but inside item, jump to item end
+    --  If on end, jump to item after cursor which start is closest to cursor.
+    NextItemEnd = { movements.nextItemEnd, prefixRepetitionCount = true },
+    NextItemStart = { movements.nextItemStart, prefixRepetitionCount = true },
     NextMarker = { 40173, prefixRepetitionCount = true },
     NextMeasure = { 40839, prefixRepetitionCount = true },
     NextNoteEnd = { "SelectNextNote", "EventSelectionEnd", prefixRepetitionCount = true },
@@ -343,7 +377,7 @@ return {
     PasteAbove = { "PrevTrack", "Paste", prefixRepetitionCount = true },
     PasteFxChain = { "_S&M_SMART_PST_FXCHAIN", prefixRepetitionCount = true },
     PasteItem = { 40058, prefixRepetitionCount = true },
-    Paste = { "_SWS_AWPASTE", prefixRepetitionCount = true },
+    Paste = { movements.paste, prefixRepetitionCount = true },
     Pause = 1008,
     PitchDown = { 40050, midiCommand = true, prefixRepetitionCount = true },
     PitchDown7 = { "PitchDown", repetitions = 7, prefixRepetitionCount = true },
@@ -374,11 +408,15 @@ return {
     Prev4Measures = { "PrevMeasure", repetitions = 4, prefixRepetitionCount = true },
     Prev5Track = { "PrevTrack", repetitions = 5, prefixRepetitionCount = true },
     PrevBeat = { 40842, prefixRepetitionCount = true },
-    PrevBigItemStart = { custom.move.prevBigItemStart, prefixRepetitionCount = true },
+    PrevBigItemStart = { movements.prevBigItemStart, prefixRepetitionCount = true },
     PrevEnvelope = { 41863, prefixRepetitionCount = true },
     PrevEnvelopePoint = { "_SWS_BRMOVEEDITTOPREVENV", prefixRepetitionCount = true },
     PrevFolderNear = { "_SWS_SELNEARESTPREVFOLDER", "ScrollToSelectedTracks", prefixRepetitionCount = true },
-    PrevItemStart = { custom.move.prevItemStart, prefixRepetitionCount = true },
+    -- Jump to item start if not on start, jump to previous item start otherwise.
+    -- If cursor is inside multiple items i.e. multiple tracks are selected: (from top track to bottom track)
+    --  If not on start but inside item, jump to item start
+    --  If on start, jump to item before cursor which end is closest to cursor.
+    PrevItemStart = { movements.prevItemStart, prefixRepetitionCount = true },
     PrevMarker = { 40172, prefixRepetitionCount = true },
     PrevMeasure = { 40840, prefixRepetitionCount = true },
     PrevNoteEnd = { "SelectPrevNote", "EventSelectionEnd", prefixRepetitionCount = true },
@@ -417,9 +455,9 @@ return {
     },
     NextTransientInSelectedItemsMinusFadeTime = "_XENAKIOS_MOVECURNEXT_TRANSMINUSFADE",
     PrevTransientInSelectedItemsMinusFadeTime = "_XENAKIOS_MOVECURPREV_TRANSMINUSFADE",
-    ProjectEnd = custom.move.projectEnd,
-    ProjectStart = custom.move.projectStart,
-    ProjectTimeline = custom.select.innerProjectTimeline,
+    ProjectEnd = movements.projectEnd,
+    ProjectStart = movements.projectStart,
+    ProjectTimeline = movements.innerProjectTimeline,
     Quantize = { 40009, midiCommand = true },
     QuitReaper = 40004,
     RecallMark = { lib.marks.recall, registerAction = true },
@@ -434,7 +472,7 @@ return {
         setTimeSelection = true
     },
     Redo = { 40030, prefixRepetitionCount = true },
-    Region = custom.select.innerRegion,
+    Region = movements.innerRegion,
     RegionSelectItems = 40717,
     RemoveMarker = 40613,
     RemoveRegion = 40615,
@@ -510,7 +548,7 @@ return {
     SelectNoteClosestToEditCursor = { 40426, midiCommand = true },
     SelectNotes = "SelectNotesStartingInTimeSelection",
     SelectNotesStartingInTimeSelection = { 40877, midiCommand = true },
-    SelectOnlyCurrentTrack = custom.select.onlyCurrentTrack,
+    SelectOnlyCurrentTrack = movements.onlyCurrentTrack,
     SelectOnlyFoldersChildren = "_SWS_SELCHILDREN",
     SelectPrevNote = { 40414, midiCommand = true },
     SelectPrevNoteSamePitch = { 40427, midiCommand = true },
@@ -525,7 +563,7 @@ return {
     SetRippleEditAllTracks = 40311,
     SetRippleEditOff = 40309,
     SetRippleEditPerTrack = 40310,
-    FirstTrackWithItem = custom.move.firstTrackWithItem,
+    FirstTrackWithItem = movements.firstTrackWithItem,
     DuplicateTimeline = {
         "SaveTrackSelection",
         "SelectAllTracks",
@@ -540,9 +578,12 @@ return {
     },
     ExplodeTakesInPlace = 40642,
     ExplodeTakesInOrder = 40643,
+    ExplodeTakesAcrossTracks = 40224,
+    ImplodeItemsOnSameTrackIntoTakes = 40543,
+    ImplodeItemsAcrossTracksIntoTakes = 40438, -- Overlapping items -> multiple takes
+    ImplodeItemsAcrossTracksIntoOneTrack = 40644, -- Overlapping items -> first one
     ToggleBetweenReadAndTouchAutomationMode = 41109,
     QuantizeItems = 40316,
-    ExplodeTakesInAcrossTracks = 40224,
     SetAutomationModeWrite = 40403,
     SetEnvelopeShapeBezier = 40683,
     OpenConsole = "_SWSCONSOLE",
@@ -559,7 +600,7 @@ return {
     SetGlobalAutomationModeTouch = 40880,
     SetGlobalAutomationModeTrimRead = 40878,
     SetGlobalAutomationModeWrite = 40882,
-    SetGridDivision = custom.setGridDivision,
+    SetGridDivision = movements.setGridDivision,
     SetItemFadeBoundaries = {
         "SaveItemSelection",
         "UnselectItems",
@@ -576,11 +617,11 @@ return {
     SetLoopRegionToPrevRegion = "_SWS_SELPREVREG",
     SetLoopSelectionToTimeSelection = 40622,
     SetLoopStart = 40222,
-    SetMidiGridDivision = custom.setMidiGridDivision,
+    SetMidiGridDivision = movements.setMidiGridDivision,
     SetModeNormal = lib.state.setModeNormal,
     PasteItemFxChain = { "_S&M_COPYFXCHAIN9", prefixRepetitionCount = true },
     SetModeVisualTimeline = lib.state.setModeVisualTimeline,
-    ClearSelectedTimeline = custom.clearSelectedTimeline,
+    ClearSelectedTimeline = movements.clearSelectedTimeline,
     ClearTimelineSelectionAndSetModeVisualTimeline = { "ClearSelectedTimeline", "SetModeVisualTimeline" },
     SetModeVisualTrack = lib.state.setModeVisualTrack,
     SetModeRecord = lib.state.setModeRecord,
@@ -608,7 +649,7 @@ return {
     ShowProjectSettings = 40021,
     ShowTrackFreezeDetails = 41654,
     ShowVideoWindow = 50125,
-    SnappedPosition = custom.move.snap,
+    SnappedPosition = movements.snap,
     AddAndNameSnapshot = "_SWSSNAPSHOT_NEWEDIT",
     CopyCurrentSnapshot = "_SWSSNAPSHOT_COPY",
     PasteSnapshot = "_SWSSNAPSHOT_PASTE",
@@ -628,13 +669,12 @@ return {
     RecallSnapshot9 = "_SWSSNAPSHOT_GET9",
     SaveTracksToCurrentSnapshot = "_SWSSNAPSHOT_SAVE",
     DeleteAllSnapshots = "_SWSSNAPSHOT_DELALL",
-    SplitItemsAtEditCursor = 40757, 
-    -- SplitItemsAtEditCursor = {
-    --     "UnselectItems",
-    --     "SelectItemsUnderEditCursor",
-    --     "SplitItemsUnderEditCursor",
-    --     "UnselectItems" },
-    SplitItemsAtTimeSelection = custom.splitItemsAtTimeSelection,
+    SplitItemsAtEditCursor = {
+        "UnselectItems",
+        "SelectItemsUnderEditCursor",
+        "SplitItemsUnderEditCursor",
+        "UnselectItems" },
+    SplitItemsAtTimeSelection = movements.splitItemsAtTimeSelection,
     SplitItemsUnderEditCursor = 40757,
     StartOfSel = { 40440, midiCommand = true },
     StartOfSelectedItems = 41173,
@@ -707,7 +747,7 @@ return {
     TrackToggleSolo = 40281,
     TrackToggleSoloDefeat = 41199,
     TrackToggleMute = 40280,
-    TrackWithNumber = custom.move.trackWithNumber,
+    TrackWithNumber = movements.trackWithNumber,
     TrackToggleHideTracksWithoutItemsFolder = "_S&M_CYCLACTION_8",
     TrackToggleHideTracksWithoutItemsSelection = "_S&M_CYCLACTION_9",
     TrimItemLeftEdge = 41305,
