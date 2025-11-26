@@ -128,8 +128,43 @@ Use different key combinations for MIDI note movement that don't conflict.
 - `internal/rk.lua` - Key parser (lines 74-96)
 - `internal/utils/definitions.lua` - Binding merger (lines 60-66)
 
-## Next Steps
-1. Check REAPER preferences for modifier key swap setting
-2. Based on findings, decide which solution to implement
-3. Test MIDI note movement after fix
-4. Consider contributing fix back to gwatcha/master
+## Resolution ✅
+
+### Root Cause Identified
+The issue was NOT in REAPER preferences or reaper-keys parsing - it was a **binding conflict**.
+
+**Key Discovery:**
+- On Mac: `<C-...>` = Command key, `<M-...>` = Option key
+- Tested: Option+L = `Right10Pix`, Command+L = `Next4Beats` ✅
+- This confirmed the modifier mappings were correct
+
+**The Conflict:**
+Global `timeline_motion` bindings for `<M-hjkl>` (pixel movement) were preventing
+context-specific MIDI and main bindings from working, even though context-specific
+should override global.
+
+### Fix Applied
+Removed conflicting bindings from `global.timeline_motion`:
+- `["<M-h>"] = "Left10Pix"` - REMOVED
+- `["<M-l>"] = "Right10Pix"` - REMOVED
+- `["<M-H>"] = "Left40Pix"` - REMOVED
+- `["<M-L>"] = "Right40Pix"` - REMOVED
+
+This allows context-specific bindings to work:
+- **MIDI context:** Option+HJKL now moves notes ✅
+- **Main context:** Option+JK now navigates envelopes ✅
+
+### Tested & Working
+MIDI note movement now functional:
+- Option+H/L: Move note left/right
+- Option+J/K: Move note down/up semitone
+- Option+Shift+J/K: Move note down/up octave
+
+### Mac Modifier Key Reference (Confirmed)
+- `<C-...>` = **Command** key (not Control!)
+- `<M-...>` = **Option** key (Meta/Alt)
+- `<S-...>` = **Shift** key
+- `<A-...>` = Gets converted to `<M-...>` (same as Option)
+
+### Upstream Consideration
+This bug exists in gwatcha/master. Could contribute fix upstream.
