@@ -1,8 +1,9 @@
 local utils = require "movement_utils"
 local actions = {}
 
--- Track accumulator for building multi-track selections with 'x'
--- Stores track indices that persist across navigation
+-- Track accumulator registers for building multi-track selections with 'x<register>'
+-- Each register stores a list of track indices that persist across navigation
+-- Example: accumulated_tracks['a'] = {0, 2, 5} means tracks 0, 2, 5 are in register 'a'
 local accumulated_tracks = {}
 
 function actions.projectStart() reaper.SetEditCurPos(0, true, false) end
@@ -206,7 +207,8 @@ function actions.onlyCurrentTrack()
     if track then reaper.SetOnlyTrackSelected(track) end
 end
 
-function actions.toggleCurrentTrackSelection()
+---@param register string
+function actions.toggleAccumulatorRegister(register)
     -- Get the current track (first in selection after navigation)
     local current_track = reaper.GetSelectedTrack(0, 0)
     if not current_track then return end
@@ -214,10 +216,15 @@ function actions.toggleCurrentTrackSelection()
     -- Get current track index
     local current_idx = reaper.GetMediaTrackInfo_Value(current_track, "IP_TRACKNUMBER") - 1
 
-    -- Check if track is in accumulator
+    -- Initialize register if it doesn't exist
+    if not accumulated_tracks[register] then
+        accumulated_tracks[register] = {}
+    end
+
+    -- Check if track is in this register's accumulator
     local is_accumulated = false
     local accumulated_idx = nil
-    for i, idx in ipairs(accumulated_tracks) do
+    for i, idx in ipairs(accumulated_tracks[register]) do
         if idx == current_idx then
             is_accumulated = true
             accumulated_idx = i
@@ -226,21 +233,28 @@ function actions.toggleCurrentTrackSelection()
     end
 
     if is_accumulated then
-        -- Remove from accumulator
-        table.remove(accumulated_tracks, accumulated_idx)
+        -- Remove from this register's accumulator
+        table.remove(accumulated_tracks[register], accumulated_idx)
     else
-        -- Add to accumulator
-        table.insert(accumulated_tracks, current_idx)
+        -- Add to this register's accumulator
+        table.insert(accumulated_tracks[register], current_idx)
     end
 
-    -- Restore accumulated selection (keeps current track selected for navigation)
-    actions.restoreAccumulatedTracks()
+    -- Restore all accumulated tracks from all registers
+    actions.restoreAllAccumulators()
 end
 
-function actions.restoreAccumulatedTracks()
-    -- Don't clear current selection - navigation already did that
-    -- Just select all accumulated tracks
-    for _, track_idx in ipairs(accumulated_tracks) do
+function actions.restoreAllAccumulators()
+    -- Collect all unique track indices from all registers
+    local all_tracks = {}
+    for register, track_list in pairs(accumulated_tracks) do
+        for _, track_idx in ipairs(track_list) do
+            all_tracks[track_idx] = true
+        end
+    end
+
+    -- Select all accumulated tracks
+    for track_idx, _ in pairs(all_tracks) do
         local track = reaper.GetTrack(0, track_idx)
         if track then
             reaper.SetTrackSelected(track, true)
@@ -248,7 +262,28 @@ function actions.restoreAccumulatedTracks()
     end
 end
 
-function actions.clearAccumulatedTracks()
+---@param register string
+function actions.recallAccumulatorRegister(register)
+    if not accumulated_tracks[register] then return end
+
+    -- Clear current selection and select only tracks from this register
+    reaper.Main_OnCommand(40297, 0) -- UnselectTracks
+    for _, track_idx in ipairs(accumulated_tracks[register]) do
+        local track = reaper.GetTrack(0, track_idx)
+        if track then
+            reaper.SetTrackSelected(track, true)
+        end
+    end
+end
+
+---@param register string
+function actions.clearAccumulatorRegister(register)
+    accumulated_tracks[register] = {}
+    -- Restore remaining accumulators
+    actions.restoreAllAccumulators()
+end
+
+function actions.clearAllAccumulators()
     accumulated_tracks = {}
 end
 
