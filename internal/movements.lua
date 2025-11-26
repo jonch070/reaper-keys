@@ -202,6 +202,13 @@ function actions.onlyCurrentTrack()
     if track then reaper.SetOnlyTrackSelected(track) end
 end
 
+function actions.toggleCurrentTrackSelection()
+    local track = reaper.GetLastTouchedTrack()
+    if not track then return end
+    local is_selected = reaper.IsTrackSelected(track)
+    reaper.SetTrackSelected(track, not is_selected)
+end
+
 function actions.innerRegion()
     local _, region_id = reaper.GetLastMarkerAndCurRegion(0, reaper.GetCursorPosition())
     local ok, is_region, start_pos, end_pos, _, _ = reaper.EnumProjectMarkers(region_id)

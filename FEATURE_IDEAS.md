@@ -13,6 +13,12 @@
   - Normal mode: Cursor movement only (no time selection)
   - Visual mode: Cursor + time selection
 
+#### Track Selection
+- ~~Non-contiguous track selection with 'x' key~~ - **IMPLEMENTED**
+  - Custom Lua function toggles track in/out of selection
+  - Vim-style workflow (like Linear/taskwarrior-tui)
+  - `x` = toggle track selection, `gm` = go to mouse position
+
 ### 📋 TODO - Valid Feature Requests
 
 #### Grid & Snap Workflow
@@ -115,11 +121,13 @@
   - TODO: Find REAPER action ID for track enable/disable toggle
   - Note: Different from mute - disabled tracks don't process at all
 
-- **Non-contiguous track selection with 'x' key (add/remove toggle)**
+- ~~**Non-contiguous track selection with 'x' key (add/remove toggle)**~~ - **IMPLEMENTED**
   - Description: Like Superhuman/Linear's 'x' - add current track to selection or remove if already selected
   - Similar to Command+Click but keyboard-driven
   - Allows building selection of non-adjacent tracks
-  - Related to item selection request below
+  - ✅ Custom Lua function: `toggleCurrentTrackSelection` in movements.lua
+  - ✅ Bound to `x` in main.command context
+  - ✅ Moved MousePosition from `x` to `gm` (go to mouse)
 
 - **Hide muted tracks and children**
   - Description: Visibility command to hide muted tracks and their folder children
