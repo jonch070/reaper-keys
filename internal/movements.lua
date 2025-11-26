@@ -203,10 +203,29 @@ function actions.onlyCurrentTrack()
 end
 
 function actions.toggleCurrentTrackSelection()
-    local track = reaper.GetLastTouchedTrack()
-    if not track then return end
-    local is_selected = reaper.IsTrackSelected(track)
-    reaper.SetTrackSelected(track, not is_selected)
+    -- Get the current track (first in selection after navigation)
+    local current_track = reaper.GetSelectedTrack(0, 0)
+    if not current_track then return end
+
+    -- Store all currently selected tracks
+    local num_selected = reaper.CountSelectedTracks(0)
+    local selected_tracks = {}
+    for i = 0, num_selected - 1 do
+        selected_tracks[i + 1] = reaper.GetSelectedTrack(0, i)
+    end
+
+    -- Check if current track is the only selected track
+    local is_only_selected = (num_selected == 1)
+
+    if is_only_selected then
+        -- Track is alone: keep it selected (do nothing)
+        -- This maintains the track as "current" for next navigation
+        return
+    else
+        -- Multiple tracks selected: toggle the current track
+        local is_selected = reaper.IsTrackSelected(current_track)
+        reaper.SetTrackSelected(current_track, not is_selected)
+    end
 end
 
 function actions.innerRegion()
