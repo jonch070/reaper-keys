@@ -211,7 +211,10 @@ end
 function actions.toggleAccumulatorRegister(register)
     -- Get the current track (first in selection after navigation)
     local current_track = reaper.GetSelectedTrack(0, 0)
-    if not current_track then return end
+    if not current_track then
+        reaper.ShowConsoleMsg("toggleAccumulatorRegister: No track selected\n")
+        return
+    end
 
     -- Get current track index
     local current_idx = reaper.GetMediaTrackInfo_Value(current_track, "IP_TRACKNUMBER") - 1
@@ -235,9 +238,18 @@ function actions.toggleAccumulatorRegister(register)
     if is_accumulated then
         -- Remove from this register's accumulator
         table.remove(accumulated_tracks[register], accumulated_idx)
+        reaper.ShowConsoleMsg(string.format("Removed track %d from register '%s'\n", current_idx, register))
     else
         -- Add to this register's accumulator
         table.insert(accumulated_tracks[register], current_idx)
+        reaper.ShowConsoleMsg(string.format("Added track %d to register '%s'\n", current_idx, register))
+    end
+
+    -- Debug: show all registers
+    reaper.ShowConsoleMsg("Current accumulators:\n")
+    for reg, tracks in pairs(accumulated_tracks) do
+        local track_str = table.concat(tracks, ", ")
+        reaper.ShowConsoleMsg(string.format("  Register '%s': [%s]\n", reg, track_str))
     end
 
     -- Restore all accumulated tracks from all registers
@@ -245,6 +257,9 @@ function actions.toggleAccumulatorRegister(register)
 end
 
 function actions.restoreAllAccumulators()
+    -- Save the current track (the one selected by navigation)
+    local current_track = reaper.GetSelectedTrack(0, 0)
+
     -- Collect all unique track indices from all registers
     local all_tracks = {}
     for register, track_list in pairs(accumulated_tracks) do
@@ -253,13 +268,26 @@ function actions.restoreAllAccumulators()
         end
     end
 
-    -- Select all accumulated tracks
+    -- Select all accumulated tracks (this preserves the current track if it's accumulated)
+    local count = 0
     for track_idx, _ in pairs(all_tracks) do
         local track = reaper.GetTrack(0, track_idx)
         if track then
             reaper.SetTrackSelected(track, true)
+            count = count + 1
         end
     end
+
+    -- If current track is not in any accumulator, also select it (for navigation)
+    if current_track then
+        local current_idx = reaper.GetMediaTrackInfo_Value(current_track, "IP_TRACKNUMBER") - 1
+        if not all_tracks[current_idx] then
+            reaper.SetTrackSelected(current_track, true)
+            count = count + 1
+        end
+    end
+
+    reaper.ShowConsoleMsg(string.format("restoreAllAccumulators: Selected %d tracks\n", count))
 end
 
 ---@param register string
