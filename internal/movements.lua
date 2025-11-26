@@ -238,6 +238,9 @@ end
 
 ---@param register string
 function actions.toggleAccumulatorRegister(register)
+    -- Normalize register to lowercase for consistency
+    register = string.lower(register)
+
     -- Get the current track (first in selection after navigation)
     local current_track = reaper.GetSelectedTrack(0, 0)
     if not current_track then
@@ -296,44 +299,50 @@ function actions.toggleAccumulatorRegister(register)
 end
 
 function actions.restoreAllAccumulators()
-    -- Save the current track (the one selected by navigation)
-    local current_track = reaper.GetSelectedTrack(0, 0)
+    -- Use defer to run after navigation action completes
+    reaper.defer(function()
+        -- Save the current track (the one selected by navigation)
+        local current_track = reaper.GetSelectedTrack(0, 0)
 
-    -- Load all registers from project state
-    local all_registers = getAllAccumulatorRegisters()
+        -- Load all registers from project state
+        local all_registers = getAllAccumulatorRegisters()
 
-    -- Collect all unique track indices from all registers
-    local all_tracks = {}
-    for register, track_list in pairs(all_registers) do
-        for _, track_idx in ipairs(track_list) do
-            all_tracks[track_idx] = true
+        -- Collect all unique track indices from all registers
+        local all_tracks = {}
+        for register, track_list in pairs(all_registers) do
+            for _, track_idx in ipairs(track_list) do
+                all_tracks[track_idx] = true
+            end
         end
-    end
 
-    -- Select all accumulated tracks (this preserves the current track if it's accumulated)
-    local count = 0
-    for track_idx, _ in pairs(all_tracks) do
-        local track = reaper.GetTrack(0, track_idx)
-        if track then
-            reaper.SetTrackSelected(track, true)
-            count = count + 1
+        -- Select all accumulated tracks (this preserves the current track if it's accumulated)
+        local count = 0
+        for track_idx, _ in pairs(all_tracks) do
+            local track = reaper.GetTrack(0, track_idx)
+            if track then
+                reaper.SetTrackSelected(track, true)
+                count = count + 1
+            end
         end
-    end
 
-    -- If current track is not in any accumulator, also select it (for navigation)
-    if current_track then
-        local current_idx = reaper.GetMediaTrackInfo_Value(current_track, "IP_TRACKNUMBER") - 1
-        if not all_tracks[current_idx] then
-            reaper.SetTrackSelected(current_track, true)
-            count = count + 1
+        -- If current track is not in any accumulator, also select it (for navigation)
+        if current_track then
+            local current_idx = reaper.GetMediaTrackInfo_Value(current_track, "IP_TRACKNUMBER") - 1
+            if not all_tracks[current_idx] then
+                reaper.SetTrackSelected(current_track, true)
+                count = count + 1
+            end
         end
-    end
 
-    reaper.ShowConsoleMsg(string.format("restoreAllAccumulators: Selected %d tracks\n", count))
+        reaper.ShowConsoleMsg(string.format("restoreAllAccumulators: Selected %d tracks (deferred)\n", count))
+    end)
 end
 
 ---@param register string
 function actions.recallAccumulatorRegister(register)
+    -- Normalize register to lowercase
+    register = string.lower(register)
+
     local track_list = getAccumulatorRegister(register)
     if #track_list == 0 then return end
 
@@ -349,6 +358,9 @@ end
 
 ---@param register string
 function actions.clearAccumulatorRegister(register)
+    -- Normalize register to lowercase
+    register = string.lower(register)
+
     setAccumulatorRegister(register, {})
     -- Restore remaining accumulators
     actions.restoreAllAccumulators()
