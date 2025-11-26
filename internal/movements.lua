@@ -1,6 +1,10 @@
 local utils = require "movement_utils"
 local actions = {}
 
+-- Track accumulator for building multi-track selections with 'x'
+-- Stores track indices that persist across navigation
+local accumulated_tracks = {}
+
 function actions.projectStart() reaper.SetEditCurPos(0, true, false) end
 
 function actions.projectEnd() reaper.SetEditCurPos(reaper.GetProjectLength(0), true, false) end
@@ -207,25 +211,45 @@ function actions.toggleCurrentTrackSelection()
     local current_track = reaper.GetSelectedTrack(0, 0)
     if not current_track then return end
 
-    -- Store all currently selected tracks
-    local num_selected = reaper.CountSelectedTracks(0)
-    local selected_tracks = {}
-    for i = 0, num_selected - 1 do
-        selected_tracks[i + 1] = reaper.GetSelectedTrack(0, i)
+    -- Get current track index
+    local current_idx = reaper.GetMediaTrackInfo_Value(current_track, "IP_TRACKNUMBER") - 1
+
+    -- Check if track is in accumulator
+    local is_accumulated = false
+    local accumulated_idx = nil
+    for i, idx in ipairs(accumulated_tracks) do
+        if idx == current_idx then
+            is_accumulated = true
+            accumulated_idx = i
+            break
+        end
     end
 
-    -- Check if current track is the only selected track
-    local is_only_selected = (num_selected == 1)
-
-    if is_only_selected then
-        -- Track is alone: keep it selected (do nothing)
-        -- This maintains the track as "current" for next navigation
-        return
+    if is_accumulated then
+        -- Remove from accumulator
+        table.remove(accumulated_tracks, accumulated_idx)
     else
-        -- Multiple tracks selected: toggle the current track
-        local is_selected = reaper.IsTrackSelected(current_track)
-        reaper.SetTrackSelected(current_track, not is_selected)
+        -- Add to accumulator
+        table.insert(accumulated_tracks, current_idx)
     end
+
+    -- Restore accumulated selection (keeps current track selected for navigation)
+    actions.restoreAccumulatedTracks()
+end
+
+function actions.restoreAccumulatedTracks()
+    -- Don't clear current selection - navigation already did that
+    -- Just select all accumulated tracks
+    for _, track_idx in ipairs(accumulated_tracks) do
+        local track = reaper.GetTrack(0, track_idx)
+        if track then
+            reaper.SetTrackSelected(track, true)
+        end
+    end
+end
+
+function actions.clearAccumulatedTracks()
+    accumulated_tracks = {}
 end
 
 function actions.innerRegion()

@@ -334,7 +334,7 @@ return {
     },
     NextTab = { 40861, prefixRepetitionCount = true },
     NextTake = { 40125, prefixRepetitionCount = true },
-    NextTrack = { 40285, prefixRepetitionCount = true },
+    NextTrack = { 40285, "RestoreAccumulatedTracks", prefixRepetitionCount = true },
     NextTrackMatchBackward = {
         "RepeatTrackNameMatchBackward",
         "ScrollToSelectedTracks",
@@ -443,7 +443,7 @@ return {
     },
     PrevTab = { 40862, prefixRepetitionCount = true },
     PrevTake = { 40126, prefixRepetitionCount = true },
-    PrevTrack = { 40286, prefixRepetitionCount = true },
+    PrevTrack = { 40286, "RestoreAccumulatedTracks", prefixRepetitionCount = true },
     PrevTransientInItem = {
         "SaveItemSelection",
         "SelectItemsUnderEditCursor",
@@ -799,6 +799,8 @@ return {
     ToggleShowTrackRouting = 40293,
     ToggleShowMasterTrack = 41050,
     ToggleCurrentTrackSelection = movements.toggleCurrentTrackSelection,
+    ClearAccumulatedTracks = movements.clearAccumulatedTracks,
+    RestoreAccumulatedTracks = movements.restoreAccumulatedTracks,
     ShowBigClock = 40378,
     ShowDocker = 40279,
     ShowEnvelopeManager = 42678,

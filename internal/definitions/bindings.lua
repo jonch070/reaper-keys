@@ -528,6 +528,7 @@ local main = {
         ["Y"] = "CopySelectedItems",
         ["V"] = "SetModeVisualTrack",
         ["x"] = "ToggleCurrentTrackSelection",  -- Toggle add/remove track from selection
+        ["X"] = "ClearAccumulatedTracks",  -- Clear accumulated track selection
         ["<M-j>"] = "NextEnvelope",
         ["<M-k>"] = "PrevEnvelope",
         ["<C-+>"] = "ZoomInVert",
