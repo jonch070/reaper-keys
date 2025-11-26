@@ -15,9 +15,14 @@
 
 #### Track Selection
 - ~~Non-contiguous track selection with 'x' key~~ - **IMPLEMENTED**
-  - Custom Lua function toggles track in/out of selection
+  - Register-based track accumulators (like vim registers)
+  - `x<register>` = toggle track in/out of named register (e.g., `xa`, `xb`, `xc`)
+  - `X<register>` = recall tracks from register (select only those)
+  - `gX<register>` = clear specific register
+  - `j`/`k` navigation auto-restores all accumulated tracks
+  - Build multiple track groups simultaneously (drums in 'a', vocals in 'b', etc.)
+  - Works like Command+Click but keyboard-only
   - Vim-style workflow (like Linear/taskwarrior-tui)
-  - `x` = toggle track selection, `gm` = go to mouse position
 
 ### 📋 TODO - Valid Feature Requests
 
@@ -122,12 +127,12 @@
   - Note: Different from mute - disabled tracks don't process at all
 
 - ~~**Non-contiguous track selection with 'x' key (add/remove toggle)**~~ - **IMPLEMENTED**
-  - Description: Like Superhuman/Linear's 'x' - add current track to selection or remove if already selected
-  - Similar to Command+Click but keyboard-driven
-  - Allows building selection of non-adjacent tracks
-  - ✅ Custom Lua function: `toggleCurrentTrackSelection` in movements.lua
-  - ✅ Bound to `x` in main.command context
-  - ✅ Moved MousePosition from `x` to `gm` (go to mouse)
+  - ✅ Register-based track accumulators for multi-group workflow
+  - ✅ `x<register>` toggles track in/out of named register
+  - ✅ `X<register>` recalls only that register's tracks
+  - ✅ `gX<register>` clears specific register
+  - ✅ All registers persist across navigation
+  - ✅ MousePosition moved from `x` to `gm` (go to mouse)
 
 - **Hide muted tracks and children**
   - Description: Visibility command to hide muted tracks and their folder children
