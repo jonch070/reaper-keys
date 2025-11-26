@@ -105,6 +105,22 @@
   - TODO: Create custom action that preserves overlapping item integrity
 
 #### Track Management
+- **Toggle record disable (arm) for selected tracks**
+  - Description: Toggle record arming on/off for selected tracks
+  - ✅ EXISTS: `ArmSelectedTracks` (_XENAKIOS_SELTRAX_RECARMED)
+  - TODO: Add binding and verify it toggles (not just enables)
+
+- **Toggle track enable/disable for selected tracks**
+  - Description: Enable/disable selected tracks (prevent playback)
+  - TODO: Find REAPER action ID for track enable/disable toggle
+  - Note: Different from mute - disabled tracks don't process at all
+
+- **Non-contiguous track selection with 'x' key (add/remove toggle)**
+  - Description: Like Superhuman/Linear's 'x' - add current track to selection or remove if already selected
+  - Similar to Command+Click but keyboard-driven
+  - Allows building selection of non-adjacent tracks
+  - Related to item selection request below
+
 - **Hide muted tracks and children**
   - Description: Visibility command to hide muted tracks and their folder children
   - Related action might exist, needs action ID
