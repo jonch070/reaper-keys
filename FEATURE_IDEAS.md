@@ -16,13 +16,17 @@
 ### 📋 TODO - Valid Feature Requests
 
 #### Grid & Snap Workflow
-- **12346 for grid and better "increase/decrease grid by" system**
-  - 🔄 NEEDS CLARIFICATION: What does "12346" mean? Key bindings 1,2,3,4,6 for different grid sizes?
-  - Description: Improve grid size adjustment workflow beyond current multiply by 2x/0.5x
+- **Number keys (12345) for quick grid size selection**
+  - Description: Map number keys to specific grid sizes for instant switching
+  - Alternative: Shortcuts to move up/down grid sizes relatively (like next/prev)
+  - Current: Must type grid size or use multiply by 2x/0.5x
+  - Wanted: One-key press to switch to common grid sizes (1/4, 1/8, 1/16, etc.)
 
-- **Adaptive numbered grid**
-  - 🔄 NEEDS CLARIFICATION: What makes it "adaptive"? Context-aware grid sizes?
-  - Description: Use number keys for quick grid size selection
+- **Adaptive numbered grid (zoom-aware)**
+  - Description: Number keys correspond to different grid sizes based on zoom level
+  - Example: At bar-level zoom, "1" = whole note; at beat zoom, "1" = 1/4 note
+  - Adaptive to context/zoom for more intelligent workflow
+  - May be complex - keep as idea for future exploration
 
 #### MIDI Note Length
 - **Decrease/Increase note length left and right by grid division**
@@ -36,9 +40,11 @@
     - `TrimSelectedNoteRightEdgeToEditCursor` (40791)
   - TODO: Add bindings for these actions
 
-- **I want to add shift h or l to grow notes like rewgs**
-  - 🔄 NEEDS CLARIFICATION: What is "rewgs"? Another REAPER config/fork?
-  - Description: Shift+H/L to extend note length (probably left/right edges)
+- **Shift+H/L to grow note edges (like Alex Ruger/rewgs' setup)**
+  - Description: Extend/shrink note boundaries like item edge editing
+  - Shift+H: Grow/shrink left edge of note
+  - Shift+L: Grow/shrink right edge of note
+  - Similar to item edge trimming but for MIDI notes
   - Related to note length adjustment above
 
 #### MIDI Note Selection
@@ -57,12 +63,24 @@
 - **Move note to edit cursor**
   - 🔄 NEEDS CLARIFICATION: Move selected note's start to cursor? Or both edges?
 
-#### MIDI Editing Workflow
-- **Rate semitones and octaves**
-  - 🔄 NEEDS CLARIFICATION: What does "rate" mean? Pitch adjustment? Velocity?
+#### Item Playback Rate (Pitch)
+- **Better workflow for item rate (playback speed/pitch) adjustment**
+  - Actions needed:
+    - Decrease/increase rate by semitone (preserve pitch OFF)
+    - Decrease/increase rate by octave (preserve pitch OFF)
+    - Clear preserve pitch setting
+  - Currently used frequently but workflow is clunky
+  - Need dedicated key bindings for quick pitch/speed adjustment
+  - Note: This is for ITEMS, not MIDI notes
 
-- **General midi stuff workflow**
-  - 🔄 NEEDS CLARIFICATION: Too vague - what specific workflows?
+#### MIDI Editing Workflow
+- **General MIDI workflow improvements (ongoing)**
+  - Includes adding better capabilities like:
+    - Jesse (MIDI tool - needs research)
+    - Chord gun integration
+    - MIDI transformer workflows
+  - Long-term exploration of MIDI tooling ecosystem
+  - Keep as placeholder for future MIDI enhancements
 
 - **Cut selected notes cuts all notes in the same vertical column**
   - **BUG**: Cuts entire chord instead of just selected note
@@ -120,8 +138,11 @@
   - Should focus search field automatically
 
 #### UI & Workflow
-- **Stop popup at the beginning**
-  - 🔄 NEEDS CLARIFICATION: What popup? Feedback window? Splash screen?
+- **Disable "Your mother loves you" startup message**
+  - Description: The welcome popup that appears when reaper-keys initializes
+  - Shows: "Hello from inside Reaper Keys!" message with instructions
+  - Location: Set option in `internal/definitions/config.lua`
+  - TODO: Find config option to disable or make it show only once
 
 - **I don't want esc to stop playback**
   - Current: ESC bound to Reset which stops playback
@@ -240,16 +261,15 @@
 
 ---
 
-## Investigation Needed
+## ✅ Clarifications Received
 
-Items that need testing or more information:
-
-1. **12346 grid system** - What does this notation mean?
-2. **Adaptive numbered grid** - What makes it adaptive?
-3. **rewgs** - Is this another reaper-keys fork or config?
-4. **Rate semitones and octaves** - What does "rate" mean in this context?
-5. **Stop popup at the beginning** - Which popup?
-6. **General midi stuff workflow** - Too vague, needs specifics
+All items clarified - see updated descriptions above:
+1. **Number keys for grid** - Quick grid size switching with 1-5 keys
+2. **Adaptive numbered grid** - Zoom-aware grid size mapping (future idea)
+3. **rewgs/Alex Ruger** - Collaborator's MIDI note edge growing workflow
+4. **Item rate adjustment** - Playback speed/pitch by semitone/octave
+5. **Startup popup** - "Your mother loves you" welcome message
+6. **MIDI workflow** - Long-term improvements (Jesse, Chord gun, etc.)
 
 ---
 
