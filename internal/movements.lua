@@ -2,9 +2,38 @@ local utils = require "movement_utils"
 local actions = {}
 
 -- Track accumulator registers for building multi-track selections with 'x<register>'
+-- Stored in project extended state to persist across script reloads
 -- Each register stores a list of track indices that persist across navigation
 -- Example: accumulated_tracks['a'] = {0, 2, 5} means tracks 0, 2, 5 are in register 'a'
-local accumulated_tracks = {}
+
+local serpent = require 'serpent'
+
+local function getAccumulatorRegister(register)
+    local ok, value = reaper.GetProjExtState(0, "track_accumulators", register)
+    if not ok or not value or value == "" then return {} end
+    local track_list
+    ok, track_list = serpent.load(value)
+    if not ok or not track_list then return {} end
+    return track_list
+end
+
+local function setAccumulatorRegister(register, track_list)
+    reaper.SetProjExtState(0, "track_accumulators", register, serpent.block(track_list, { comment = false }))
+end
+
+local function getAllAccumulatorRegisters()
+    local all_registers = {}
+    for i = 0, 5000 do
+        local ok, register, value = reaper.EnumProjExtState(0, "track_accumulators", i)
+        if not ok then break end
+        local track_list
+        ok, track_list = serpent.load(value)
+        if ok and track_list then
+            all_registers[register] = track_list
+        end
+    end
+    return all_registers
+end
 
 function actions.projectStart() reaper.SetEditCurPos(0, true, false) end
 
@@ -219,15 +248,21 @@ function actions.toggleAccumulatorRegister(register)
     -- Get current track index
     local current_idx = reaper.GetMediaTrackInfo_Value(current_track, "IP_TRACKNUMBER") - 1
 
-    -- Initialize register if it doesn't exist
-    if not accumulated_tracks[register] then
-        accumulated_tracks[register] = {}
+    -- Load register from project state
+    local track_list = getAccumulatorRegister(register)
+
+    -- Debug: show what's in the register before we modify it
+    if #track_list > 0 then
+        local before_str = table.concat(track_list, ", ")
+        reaper.ShowConsoleMsg(string.format("Before toggle - Register '%s': [%s]\n", register, before_str))
+    else
+        reaper.ShowConsoleMsg(string.format("Before toggle - Register '%s' is empty\n", register))
     end
 
     -- Check if track is in this register's accumulator
     local is_accumulated = false
     local accumulated_idx = nil
-    for i, idx in ipairs(accumulated_tracks[register]) do
+    for i, idx in ipairs(track_list) do
         if idx == current_idx then
             is_accumulated = true
             accumulated_idx = i
@@ -237,17 +272,21 @@ function actions.toggleAccumulatorRegister(register)
 
     if is_accumulated then
         -- Remove from this register's accumulator
-        table.remove(accumulated_tracks[register], accumulated_idx)
+        table.remove(track_list, accumulated_idx)
         reaper.ShowConsoleMsg(string.format("Removed track %d from register '%s'\n", current_idx, register))
     else
         -- Add to this register's accumulator
-        table.insert(accumulated_tracks[register], current_idx)
+        table.insert(track_list, current_idx)
         reaper.ShowConsoleMsg(string.format("Added track %d to register '%s'\n", current_idx, register))
     end
 
+    -- Save register back to project state
+    setAccumulatorRegister(register, track_list)
+
     -- Debug: show all registers
     reaper.ShowConsoleMsg("Current accumulators:\n")
-    for reg, tracks in pairs(accumulated_tracks) do
+    local all_registers = getAllAccumulatorRegisters()
+    for reg, tracks in pairs(all_registers) do
         local track_str = table.concat(tracks, ", ")
         reaper.ShowConsoleMsg(string.format("  Register '%s': [%s]\n", reg, track_str))
     end
@@ -260,9 +299,12 @@ function actions.restoreAllAccumulators()
     -- Save the current track (the one selected by navigation)
     local current_track = reaper.GetSelectedTrack(0, 0)
 
+    -- Load all registers from project state
+    local all_registers = getAllAccumulatorRegisters()
+
     -- Collect all unique track indices from all registers
     local all_tracks = {}
-    for register, track_list in pairs(accumulated_tracks) do
+    for register, track_list in pairs(all_registers) do
         for _, track_idx in ipairs(track_list) do
             all_tracks[track_idx] = true
         end
@@ -292,11 +334,12 @@ end
 
 ---@param register string
 function actions.recallAccumulatorRegister(register)
-    if not accumulated_tracks[register] then return end
+    local track_list = getAccumulatorRegister(register)
+    if #track_list == 0 then return end
 
     -- Clear current selection and select only tracks from this register
     reaper.Main_OnCommand(40297, 0) -- UnselectTracks
-    for _, track_idx in ipairs(accumulated_tracks[register]) do
+    for _, track_idx in ipairs(track_list) do
         local track = reaper.GetTrack(0, track_idx)
         if track then
             reaper.SetTrackSelected(track, true)
@@ -306,13 +349,17 @@ end
 
 ---@param register string
 function actions.clearAccumulatorRegister(register)
-    accumulated_tracks[register] = {}
+    setAccumulatorRegister(register, {})
     -- Restore remaining accumulators
     actions.restoreAllAccumulators()
 end
 
 function actions.clearAllAccumulators()
-    accumulated_tracks = {}
+    -- Clear all registers from project state
+    local all_registers = getAllAccumulatorRegisters()
+    for register, _ in pairs(all_registers) do
+        setAccumulatorRegister(register, {})
+    end
 end
 
 function actions.innerRegion()
