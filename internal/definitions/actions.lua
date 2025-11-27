@@ -334,7 +334,7 @@ return {
     },
     NextTab = { 40861, prefixRepetitionCount = true },
     NextTake = { 40125, prefixRepetitionCount = true },
-    NextTrack = { 40285, "RestoreAllAccumulators", prefixRepetitionCount = true },
+    NextTrack = { movements.nextTrackPreservingAccumulators, prefixRepetitionCount = true },
     NextTrackMatchBackward = {
         "RepeatTrackNameMatchBackward",
         "ScrollToSelectedTracks",
@@ -443,7 +443,7 @@ return {
     },
     PrevTab = { 40862, prefixRepetitionCount = true },
     PrevTake = { 40126, prefixRepetitionCount = true },
-    PrevTrack = { 40286, "RestoreAllAccumulators", prefixRepetitionCount = true },
+    PrevTrack = { movements.prevTrackPreservingAccumulators, prefixRepetitionCount = true },
     PrevTransientInItem = {
         "SaveItemSelection",
         "SelectItemsUnderEditCursor",

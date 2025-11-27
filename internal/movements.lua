@@ -9,6 +9,8 @@ local actions = {}
 local serpent = require 'serpent'
 
 local function getAccumulatorRegister(register)
+    -- Normalize to lowercase
+    register = string.lower(register)
     local ok, value = reaper.GetProjExtState(0, "track_accumulators", register)
     if not ok or not value or value == "" then return {} end
     local track_list
@@ -18,6 +20,8 @@ local function getAccumulatorRegister(register)
 end
 
 local function setAccumulatorRegister(register, track_list)
+    -- Normalize to lowercase
+    register = string.lower(register)
     reaper.SetProjExtState(0, "track_accumulators", register, serpent.block(track_list, { comment = false }))
 end
 
@@ -234,6 +238,49 @@ end
 function actions.onlyCurrentTrack()
     local track = reaper.GetSelectedTrack(0, 0)
     if track then reaper.SetOnlyTrackSelected(track) end
+end
+
+-- Custom track navigation that preserves accumulated selections
+function actions.nextTrackPreservingAccumulators()
+    -- Get currently selected track
+    local current_track = reaper.GetSelectedTrack(0, 0)
+    if not current_track then return end
+
+    local current_idx = reaper.GetMediaTrackInfo_Value(current_track, "IP_TRACKNUMBER") - 1
+    local next_idx = current_idx + 1
+    local next_track = reaper.GetTrack(0, next_idx)
+
+    if next_track then
+        -- Don't use REAPER's action - manually select the next track while preserving others
+        reaper.SetTrackSelected(next_track, true)
+        reaper.SetTrackSelected(current_track, false)  -- Deselect current (it will be re-added by restore if accumulated)
+        reaper.Main_OnCommand(40913, 0) -- ScrollToSelectedTracks
+
+        -- Restore all accumulators
+        actions.restoreAllAccumulators()
+    end
+end
+
+function actions.prevTrackPreservingAccumulators()
+    -- Get currently selected track
+    local current_track = reaper.GetSelectedTrack(0, 0)
+    if not current_track then return end
+
+    local current_idx = reaper.GetMediaTrackInfo_Value(current_track, "IP_TRACKNUMBER") - 1
+    local prev_idx = current_idx - 1
+
+    if prev_idx >= 0 then
+        local prev_track = reaper.GetTrack(0, prev_idx)
+        if prev_track then
+            -- Don't use REAPER's action - manually select the prev track while preserving others
+            reaper.SetTrackSelected(prev_track, true)
+            reaper.SetTrackSelected(current_track, false)  -- Deselect current (will be re-added if accumulated)
+            reaper.Main_OnCommand(40913, 0) -- ScrollToSelectedTracks
+
+            -- Restore all accumulators
+            actions.restoreAllAccumulators()
+        end
+    end
 end
 
 ---@param register string

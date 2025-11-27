@@ -10,7 +10,10 @@
       "WebFetch(domain:www.reaper.fm)",
       "WebSearch",
       "Bash(cat:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:github.com)",
+      "Bash(git restore:*)"
     ],
     "deny": [],
     "ask": []
