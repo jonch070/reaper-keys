@@ -13,7 +13,8 @@
       "Bash(git commit:*)",
       "WebFetch(domain:raw.githubusercontent.com)",
       "WebFetch(domain:github.com)",
-      "Bash(git restore:*)"
+      "Bash(git restore:*)",
+      "Bash(lua -e:*)"
     ],
     "deny": [],
     "ask": []

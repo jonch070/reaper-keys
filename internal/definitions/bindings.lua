@@ -121,6 +121,18 @@ local global = { -- applies both to main and midi
                 ["9"] = "RecallSnapshot9",
             } },
         } },
+        ["'"] = { "+screensets", {
+            ["1"] = "LoadWindowSet1",
+            ["2"] = "LoadWindowSet2",
+            ["3"] = "LoadWindowSet3",
+            ["4"] = "LoadWindowSet4",
+            ["5"] = "LoadWindowSet5",
+            ["!"] = "SaveWindowSet1",
+            ["@"] = "SaveWindowSet2",
+            ["#"] = "SaveWindowSet3",
+            ["$"] = "SaveWindowSet4",
+            ["%"] = "SaveWindowSet5",
+        } },
         ["q"] = { "+options", {
             ["p"] = "TogglePlaybackPreroll",
             ["r"] = "ToggleRecordingPreroll",
@@ -599,7 +611,7 @@ local midi = {
         ["<C-+>"] = "MidiZoomInHoriz",
         ["<C-->"] = "MidiZoomOutHoriz",
         ["Z"] = "CloseWindow",
-        ["a"] = "InsertNote",
+        ["a"] = "InsertDefaultSizeNote",
         ["p"] = "MidiPaste",
         ["S"] = "UnselectAllEvents",
         ["Y"] = "CopySelectedEvents",
@@ -622,8 +634,8 @@ local midi = {
         ["<M-h>"] = "MoveNoteLeft",
         ["<S-h>"] = "TrimSelectedNoteLeftEdgeToEditCursor",
         ["<S-l>"] = "TrimSelectedNoteRightEdgeToEditCursor",
-        ["gn"] = "SelectNearestNote",
-        ["gc"] = "SelectNoteClosestToEditCursor",
+        ["vn"] = "SelectNearestNote",
+        ["vc"] = "SelectNoteClosestToEditCursor",
     },
 }
 

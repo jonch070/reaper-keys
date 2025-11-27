@@ -21,6 +21,15 @@
   - Needs deeper integration with reaper-keys' mode system
   - Will revisit after understanding navigation architecture better
 
+#### Screensets (Window Layouts)
+- **Load and save screensets for different workspace layouts** - **✅ IMPLEMENTED**
+  - Description: Save and recall window configurations (editing, mixing, MIDI layouts)
+  - ✅ Screensets differ from snapshots: screensets save window layouts, snapshots save mix settings
+  - ✅ Load screensets: `'1` through `'5` (single quote + number)
+  - ✅ Save screensets: `'!` through `'%` (single quote + Shift+number)
+  - Default REAPER bindings: F3-F5 load, Shift+F3-F5 save
+  - Screensets 1-5 added (can expand to 10 if needed)
+
 ### 📋 TODO - Valid Feature Requests
 
 #### Grid & Snap Workflow
@@ -60,8 +69,8 @@
   - Description: Select notes near the cursor position
   - ✅ Action exists: `SelectNearestNote` (40425)
   - ✅ Action exists: `SelectNoteClosestToEditCursor` (40426)
-  - ✅ Binding: `gn` (select nearest note)
-  - ✅ Binding: `gc` (select note closest to edit cursor)
+  - ✅ Binding: `vn` (select nearest note)
+  - ✅ Binding: `vc` (select note closest to edit cursor)
 
 - **Select all notes at cursor vertical** - **✅ IMPLEMENTED**
   - Description: Select all notes at the same pitch
