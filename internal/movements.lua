@@ -355,15 +355,18 @@ function actions.paste()
 end
 
 function actions.insertNoteAtCursorOrTimeSelection()
+    local hwnd = reaper.MIDIEditor_GetActive()
+    if not hwnd then return end
+
     local start_time, end_time = reaper.GetSet_LoopTimeRange(false, false, 0, 0, false)
     if start_time ~= end_time then
         -- There's a time selection, insert at time selection start
-        reaper.Main_OnCommand(40037, 0) -- MIDI: Move edit cursor to start of time selection
-        reaper.Main_OnCommand(40051, 0) -- MIDI: Insert note at edit cursor
-        reaper.Main_OnCommand(40037, 0) -- Move cursor back to time selection start
+        reaper.MIDIEditor_OnCommand(hwnd, 40037) -- MIDI: Move edit cursor to start of time selection
+        reaper.MIDIEditor_OnCommand(hwnd, 40051) -- MIDI: Insert note at edit cursor
+        reaper.MIDIEditor_OnCommand(hwnd, 40037) -- Move cursor back to time selection start
     else
         -- No time selection, insert at current edit cursor position
-        reaper.Main_OnCommand(40051, 0) -- MIDI: Insert note at edit cursor
+        reaper.MIDIEditor_OnCommand(hwnd, 40051) -- MIDI: Insert note at edit cursor
     end
 end
 
