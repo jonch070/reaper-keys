@@ -360,20 +360,14 @@ function actions.insertNoteAtCursorOrTimeSelection()
 
     local start_time, end_time = reaper.GetSet_LoopTimeRange(false, false, 0, 0, false)
     if start_time ~= end_time then
-        -- There's a time selection, insert note spanning the selection
-        -- Move cursor to time selection start
-        reaper.MIDIEditor_OnCommand(hwnd, 40037) -- MIDI: Move edit cursor to start of time selection
-
-        -- Insert note at cursor (respects cursor vertical position for pitch)
-        reaper.MIDIEditor_OnCommand(hwnd, 40051) -- MIDI: Insert note at edit cursor
-
-        -- Select the note we just inserted (it's at the cursor position)
-        reaper.MIDIEditor_OnCommand(hwnd, 40426) -- MIDI: Select note closest to edit cursor
-
-        -- Fit selected note to time selection
-        reaper.MIDIEditor_OnCommand(hwnd, 40754) -- MIDI: Fit notes to time selection
+        -- There's a time selection, use the full InsertNote sequence
+        reaper.MIDIEditor_OnCommand(hwnd, 40037) -- MidiTimeSelectionStart
+        reaper.MIDIEditor_OnCommand(hwnd, 40051) -- InsertDefaultSizeNote
+        reaper.MIDIEditor_OnCommand(hwnd, 40037) -- MidiTimeSelectionStart
+        reaper.MIDIEditor_OnCommand(hwnd, 40426) -- SelectNearestNote (or 40425)
+        reaper.MIDIEditor_OnCommand(hwnd, 40754) -- FitNotes
     else
-        -- No time selection, insert at current edit cursor position
+        -- No time selection, just insert at current cursor position
         reaper.MIDIEditor_OnCommand(hwnd, 40051) -- MIDI: Insert note at edit cursor
     end
 end
