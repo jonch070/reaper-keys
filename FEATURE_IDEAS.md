@@ -97,6 +97,16 @@
   - **BUG**: Cuts entire chord instead of just selected note
   - Should only cut the specific selected note, not all notes at same pitch
 
+#### Item Editing & Markers
+- **Add/edit take marker at play position or edit cursor**
+  - Description: Quick take marker creation
+  - ✅ Action exists: 42385
+  - TODO: Add binding nested under `i` (insert context)
+
+- **Open item properties**
+  - Description: Quick access to item properties window
+  - TODO: Find action ID and add binding
+
 #### Item Selection & Editing
 - **Non-contiguous selection - items and midi notes under cursor with "add to selection"**
   - Description: Like Superhuman/Linear's 'x' key - add/remove from selection toggle
@@ -138,17 +148,31 @@
   - Description: Visibility command to hide muted tracks and their folder children
   - Related action might exist, needs action ID
 
-- **Show all tracks**
-  - 🔄 CHECK: Might already exist as unhide all tracks action
+- **Show all tracks / Unhide all tracks**
+  - Description: Unhide all hidden tracks in project
+  - TODO: Find REAPER action for unhiding all tracks
+  - Suggested binding: somewhere in `<leader>v` (view context)
+
+- **Relative line numbers for tracks (like vim)**
+  - Description: Show track numbers relative to current track (vim-style)
+  - Similar to vim's `:set relativenumber`
+  - Would help with count-based navigation (e.g., `5j` to jump 5 tracks down)
+  - TODO: Research if possible with REAPER API or if needs custom extension
 
 - **Shift jk for folder selection should ignore hidden tracks**
   - **BUG**: Currently navigates to hidden tracks within folders
   - Should skip over hidden tracks when using Shift+J/K
 
 #### Solo & Routing
-- **Toggle exclusive solo**
-  - Description: Solo track and unsolo all others (standard exclusive solo)
-  - Check if REAPER action exists
+- **Toggle exclusive solo for selected tracks**
+  - Description: Solo selected tracks and unsolo all others
+  - ✅ Action exists: `_RS7e9734a021c2c867f4abb43fad29e2b59e3d6731` (me2beats script)
+  - TODO: Add binding under `<leader>t` maybe `<leader>te` for exclusive solo
+
+- **Auto solo tracks of selected items**
+  - Description: Automatically solo the tracks that contain selected items
+  - ✅ Action exists: `_RS81ea80e7852f40fc296587c1620a8d8dbdfae9f1` (HeDa script)
+  - TODO: Add binding maybe `<leader>tE` (Shift+E) for auto solo
 
 - **Toggle track routing**
   - **BUG**: Opens and instantly closes track routing window
@@ -166,12 +190,25 @@
   - **BUG**: After inserting VI track, FX browser doesn't auto-focus for typing
   - Should focus search field automatically
 
+#### Project & File Management
+- **Open project from recent projects list (popup menu)**
+  - Description: Quick access to recent projects without paths cluttering view
+  - ✅ Action exists: `_RS4b8f74ce98f11799503f300cfe1d4f0bd8582c9f` (Yannick script)
+  - TODO: Add binding as `O` under `<leader>p` (project context)
+
+- **Open selected item source media in explorer/finder**
+  - Description: Jump to item's source file location in file browser
+  - ✅ Action exists: 42411
+  - TODO: Add binding somewhere in "open" context
+
+- **Open project folder in explorer/finder**
+  - Description: Open current project's folder in file browser
+  - ✅ Action exists: `_RSa031ec0ee4c818007d71473b8b5a2bb28497ec22` (X-Raym script)
+  - TODO: Add binding in "open" context
+
 #### UI & Workflow
-- **Disable "Your mother loves you" startup message**
-  - Description: The welcome popup that appears when reaper-keys initializes
-  - Shows: "Hello from inside Reaper Keys!" message with instructions
-  - Location: Set option in `internal/definitions/config.lua`
-  - TODO: Find config option to disable or make it show only once
+- ~~**Disable "Your mother loves you" startup message**~~ - **IMPLEMENTED**
+  - Set `show_start_up_message = false` in config.lua
 
 - **I don't want esc to stop playback**
   - Current: ESC bound to Reset which stops playback
