@@ -243,6 +243,24 @@
   - No good way to exit when it does have focus
   - Needs focus management fix
 
+- **Window focus and management issues** - **TODO**
+  - **BUG**: Many windows don't receive focus when opened by reaper-keys
+  - Command+W doesn't close windows (expected macOS behavior)
+  - Command+Tilde doesn't cycle through windows (expected macOS behavior)
+  - General window management needs improvement
+  - May require changes to how windows are opened/focused
+
+- **MIDI note velocity controls** - **TODO**
+  - Description: Keyboard shortcuts for adjusting note velocities
+  - Actions likely exist for increase/decrease velocity
+  - TODO: Find action IDs and add bindings
+  - Possibly bind to +/- or similar in MIDI editor
+
+- **Explore Antoine's time selection edit workflow** - **TODO**
+  - Description: Research Antoine's approach to time selection editing
+  - May have useful patterns for selection-based workflows
+  - TODO: Document findings and potential integration
+
 #### Item Grouping
 - **Toggle item grouping**
   - Description: Quick toggle for grouping selected items
