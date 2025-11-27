@@ -32,6 +32,17 @@
 
 ### 📋 TODO - Valid Feature Requests
 
+#### 🔴 HIGH PRIORITY - Need Rebinding (Actions Exist, Just Unbound)
+
+**MIDI Note Editing:**
+1. **Trim note edges to cursor** - See MIDI Note Length section below
+   - Actions: 40790 (left), 40791 (right)
+   - Suggested: `[` / `]` or `<M-[>` / `<M-]>`
+
+2. **Select note at/near cursor** - See MIDI Note Selection section below
+   - Actions: 40425 (nearest), 40426 (closest to cursor)
+   - Suggested: `gn` / `gc` or `,` / `.`
+
 #### Grid & Snap Workflow
 - **Number keys (12345) for quick grid size selection**
   - Description: Map number keys to specific grid sizes for instant switching
@@ -51,25 +62,32 @@
   - Actions needed: "Edit: Lengthen notes one grid unit" & "Edit: Shorten notes one grid unit"
   - TODO: Find action IDs and add to actions.lua
 
-- **Note length left or right to cursor** - **TODO: Need Better Bindings**
-  - Description: Trim note edges to edit cursor position
-  - ✅ Action exists: `TrimSelectedNoteLeftEdgeToEditCursor` (40790)
-  - ✅ Action exists: `TrimSelectedNoteRightEdgeToEditCursor` (40791)
-  - ❌ Previous bindings (Shift+H/L) conflict with measure navigation (PrevMeasure/NextMeasure)
-  - TODO: Find non-conflicting bindings (maybe `[`/`]` or `g<`/`g>`?)
-
-- **Shift+H/L to grow note edges (like Alex Ruger/rewgs' setup)** - **TODO: Need Better Bindings**
-  - Description: Extend/shrink note boundaries like item edge editing
-  - Same as "Note length left or right to cursor" above
-  - Need bindings that don't conflict with H/L measure navigation
+- **Trim note edges to edit cursor** - **🔴 PRIORITY: Rebind**
+  - Description: Trim note edges to edit cursor position (like item edge editing)
+  - ✅ Actions exist in actions.lua:
+    - `TrimSelectedNoteLeftEdgeToEditCursor` (40790)
+    - `TrimSelectedNoteRightEdgeToEditCursor` (40791)
+  - ❌ Previous bindings (Shift+H/L) conflicted with measure navigation
+  - **TODO: Choose and bind new keys**
+  - Suggested options:
+    - `[` / `]` (trim left/right edge to cursor)
+    - `g<` / `g>` (go trim left/right)
+    - `z[` / `z]` (in z prefix context)
+    - `<M-[>` / `<M-]>` (Option+bracket)
 
 #### MIDI Note Selection
-- **Select note under cursor (vertical and horizontal)** - **TODO: Need Better Bindings**
+- **Select note at/near cursor** - **🔴 PRIORITY: Rebind**
   - Description: Select notes near the cursor position
-  - ✅ Action exists: `SelectNearestNote` (40425)
-  - ✅ Action exists: `SelectNoteClosestToEditCursor` (40426)
-  - ❌ Previous bindings (vn/vc) conflict with visual timeline mode trigger (v key)
-  - TODO: Find non-conflicting bindings
+  - ✅ Actions exist in actions.lua:
+    - `SelectNearestNote` (40425)
+    - `SelectNoteClosestToEditCursor` (40426)
+  - ❌ Previous bindings (vn/vc) conflicted with visual timeline mode (v key)
+  - **TODO: Choose and bind new keys**
+  - Suggested options:
+    - `gn` / `gc` (go to nearest/closest note)
+    - `<leader>sn` / `<leader>sc` (select nearest/closest)
+    - `zn` / `zc` (in z prefix context)
+    - Single keys like `,` / `.` if available
 
 - **Select all notes at cursor vertical** - **✅ IMPLEMENTED**
   - Description: Select all notes at the same pitch
