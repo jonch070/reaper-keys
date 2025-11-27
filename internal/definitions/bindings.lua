@@ -171,6 +171,7 @@ local global = { -- applies both to main and midi
                 A = "ShowFloatingMixerMaster",
                 b = "ShowProjectBay",
                 c = "ShowBigClock",
+                C = "OpenConsole",
                 d = "ShowDocker",
                 D = "ShowToolbarDocker",
                 e = "ShowEnvelopeManager",
@@ -619,6 +620,10 @@ local midi = {
         ["<M-J>"] = "MoveNoteDownOctave",
         ["<M-l>"] = "MoveNoteRight",
         ["<M-h>"] = "MoveNoteLeft",
+        ["<S-h>"] = "TrimSelectedNoteLeftEdgeToEditCursor",
+        ["<S-l>"] = "TrimSelectedNoteRightEdgeToEditCursor",
+        ["gn"] = "SelectNearestNote",
+        ["gc"] = "SelectNoteClosestToEditCursor",
     },
 }
 

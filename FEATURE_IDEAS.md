@@ -42,31 +42,37 @@
   - Actions needed: "Edit: Lengthen notes one grid unit" & "Edit: Shorten notes one grid unit"
   - TODO: Find action IDs and add to actions.lua
 
-- **Note length left or right to cursor**
-  - ✅ PARTIALLY EXISTS:
-    - `TrimSelectedNoteLeftEdgeToEditCursor` (40790)
-    - `TrimSelectedNoteRightEdgeToEditCursor` (40791)
-  - TODO: Add bindings for these actions
+- **Note length left or right to cursor** - **✅ IMPLEMENTED**
+  - Description: Trim note edges to edit cursor position
+  - ✅ Action exists: `TrimSelectedNoteLeftEdgeToEditCursor` (40790)
+  - ✅ Action exists: `TrimSelectedNoteRightEdgeToEditCursor` (40791)
+  - ✅ Binding: `Shift+H` (trim left edge to cursor)
+  - ✅ Binding: `Shift+L` (trim right edge to cursor)
 
-- **Shift+H/L to grow note edges (like Alex Ruger/rewgs' setup)**
+- **Shift+H/L to grow note edges (like Alex Ruger/rewgs' setup)** - **✅ IMPLEMENTED**
   - Description: Extend/shrink note boundaries like item edge editing
-  - Shift+H: Grow/shrink left edge of note
-  - Shift+L: Grow/shrink right edge of note
+  - ✅ Shift+H: Trim left edge to cursor
+  - ✅ Shift+L: Trim right edge to cursor
   - Similar to item edge trimming but for MIDI notes
-  - Related to note length adjustment above
 
 #### MIDI Note Selection
-- **Select note under cursor (vertical and horizontal)**
-  - ✅ EXISTS: `SelectNearestNote` (40425) and `SelectNoteClosestToEditCursor` (40426)
-  - TODO: Add bindings
+- **Select note under cursor (vertical and horizontal)** - **✅ IMPLEMENTED**
+  - Description: Select notes near the cursor position
+  - ✅ Action exists: `SelectNearestNote` (40425)
+  - ✅ Action exists: `SelectNoteClosestToEditCursor` (40426)
+  - ✅ Binding: `gn` (select nearest note)
+  - ✅ Binding: `gc` (select note closest to edit cursor)
 
-- **Select all notes at cursor vertical**
-  - ✅ EXISTS: `SelectAllNotesAtPitch` (41746)
-  - TODO: Add bindings
+- **Select all notes at cursor vertical** - **✅ IMPLEMENTED**
+  - Description: Select all notes at the same pitch
+  - ✅ Action exists: `SelectAllNotesAtPitch` (41746)
+  - ✅ Binding: `V` (shift+v in MIDI editor)
 
-- **Add note to selection under vertical and horizontal cursor**
-  - ✅ EXISTS: `AddNextNoteToSelection` (40422), `AddPrevNoteToSelection` (40421)
-  - 🔄 NEEDS CLARIFICATION: Do you want to add note at cursor position specifically?
+- **Add note to selection under vertical and horizontal cursor** - **✅ ALREADY BOUND**
+  - ✅ Action exists: `AddNextNoteToSelection` (40422)
+  - ✅ Action exists: `AddPrevNoteToSelection` (40421)
+  - ✅ Binding: `n` (add next note to selection)
+  - ✅ Binding: `N` (add previous note to selection)
 
 - **Move note to edit cursor**
   - 🔄 NEEDS CLARIFICATION: Move selected note's start to cursor? Or both edges?
@@ -211,9 +217,10 @@
   - Wanted: ESC should only exit modes, not stop transport
   - TODO: Separate Reset from Stop action
 
-- **Add open console**
+- **Add open console** - **✅ IMPLEMENTED**
   - Description: Binding to open REAPER console
-  - ✅ Action exists: `OpenConsole = "_SWSCONSOLE"` but might not be bound
+  - ✅ Action exists: `OpenConsole` (_SWSCONSOLE)
+  - ✅ Binding: `<leader>vC` (Space+v+Shift+C)
 
 - **Media explorer unfocused when brought up**
   - **BUG**: Media explorer opens but doesn't have focus
