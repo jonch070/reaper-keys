@@ -251,12 +251,13 @@ function actions.nextTrackPreservingAccumulators()
     local next_track = reaper.GetTrack(0, next_idx)
 
     if next_track then
-        -- Don't use REAPER's action - manually select the next track while preserving others
+        -- Clear all selections first, then select only the next track
+        -- This ensures GetSelectedTrack(0, 0) returns the new track
+        reaper.Main_OnCommand(40297, 0) -- UnselectAllTracks
         reaper.SetTrackSelected(next_track, true)
-        reaper.SetTrackSelected(current_track, false)  -- Deselect current (it will be re-added by restore if accumulated)
         reaper.Main_OnCommand(40913, 0) -- ScrollToSelectedTracks
 
-        -- Restore all accumulators
+        -- Restore all accumulators (deferred so it happens after selection is stable)
         actions.restoreAllAccumulators()
     end
 end
@@ -272,12 +273,13 @@ function actions.prevTrackPreservingAccumulators()
     if prev_idx >= 0 then
         local prev_track = reaper.GetTrack(0, prev_idx)
         if prev_track then
-            -- Don't use REAPER's action - manually select the prev track while preserving others
+            -- Clear all selections first, then select only the prev track
+            -- This ensures GetSelectedTrack(0, 0) returns the new track
+            reaper.Main_OnCommand(40297, 0) -- UnselectAllTracks
             reaper.SetTrackSelected(prev_track, true)
-            reaper.SetTrackSelected(current_track, false)  -- Deselect current (will be re-added if accumulated)
             reaper.Main_OnCommand(40913, 0) -- ScrollToSelectedTracks
 
-            -- Restore all accumulators
+            -- Restore all accumulators (deferred so it happens after selection is stable)
             actions.restoreAllAccumulators()
         end
     end
@@ -338,7 +340,8 @@ function actions.toggleAccumulatorRegister(register)
     local all_registers = getAllAccumulatorRegisters()
     for reg, tracks in pairs(all_registers) do
         local track_str = table.concat(tracks, ", ")
-        reaper.ShowConsoleMsg(string.format("  Register '%s': [%s]\n", reg, track_str))
+        -- Normalize register name for display
+        reaper.ShowConsoleMsg(string.format("  Register '%s': [%s]\n", string.lower(reg), track_str))
     end
 
     -- Restore all accumulated tracks from all registers
