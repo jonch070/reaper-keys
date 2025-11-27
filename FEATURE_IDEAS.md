@@ -14,15 +14,12 @@
   - Visual mode: Cursor + time selection
 
 #### Track Selection
-- ~~Non-contiguous track selection with 'x' key~~ - **IMPLEMENTED**
-  - Register-based track accumulators (like vim registers)
-  - `x<register>` = toggle track in/out of named register (e.g., `xa`, `xb`, `xc`)
-  - `X<register>` = recall tracks from register (select only those)
-  - `gX<register>` = clear specific register
-  - `j`/`k` navigation auto-restores all accumulated tracks
-  - Build multiple track groups simultaneously (drums in 'a', vocals in 'b', etc.)
-  - Works like Command+Click but keyboard-only
-  - Vim-style workflow (like Linear/taskwarrior-tui)
+- **Non-contiguous track selection with register-based accumulators** - **PAUSED**
+  - See `TRACK_ACCUMULATOR_WIP.md` for detailed progress
+  - Issue: Conflicts with core track navigation (j/k breaks, visual mode breaks)
+  - Storage/persistence mechanism works perfectly
+  - Needs deeper integration with reaper-keys' mode system
+  - Will revisit after understanding navigation architecture better
 
 ### 📋 TODO - Valid Feature Requests
 
@@ -136,13 +133,11 @@
   - TODO: Find REAPER action ID for track enable/disable toggle
   - Note: Different from mute - disabled tracks don't process at all
 
-- ~~**Non-contiguous track selection with 'x' key (add/remove toggle)**~~ - **IMPLEMENTED**
-  - ✅ Register-based track accumulators for multi-group workflow
-  - ✅ `x<register>` toggles track in/out of named register
-  - ✅ `X<register>` recalls only that register's tracks
-  - ✅ `gX<register>` clears specific register
-  - ✅ All registers persist across navigation
-  - ✅ MousePosition moved from `x` to `gm` (go to mouse)
+- **Non-contiguous track selection with 'x' key (add/remove toggle)** - **PAUSED**
+  - Register-based implementation conflicts with core navigation
+  - See TRACK_ACCUMULATOR_WIP.md for details
+  - Will revisit with better approach
+  - ✅ MousePosition moved from `x` to `gm` (go to mouse) - kept this improvement
 
 - **Hide muted tracks and children**
   - Description: Visibility command to hide muted tracks and their folder children
