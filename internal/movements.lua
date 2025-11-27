@@ -354,4 +354,17 @@ function actions.paste()
     for _, track in ipairs(selected) do reaper.SetTrackSelected(track, true) end
 end
 
+function actions.insertNoteAtCursorOrTimeSelection()
+    local start_time, end_time = reaper.GetSet_LoopTimeRange(false, false, 0, 0, false)
+    if start_time ~= end_time then
+        -- There's a time selection, insert at time selection start
+        reaper.Main_OnCommand(40037, 0) -- MIDI: Move edit cursor to start of time selection
+        reaper.Main_OnCommand(40051, 0) -- MIDI: Insert note at edit cursor
+        reaper.Main_OnCommand(40037, 0) -- Move cursor back to time selection start
+    else
+        -- No time selection, insert at current edit cursor position
+        reaper.Main_OnCommand(40051, 0) -- MIDI: Insert note at edit cursor
+    end
+end
+
 return actions
