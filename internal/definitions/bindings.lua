@@ -632,10 +632,6 @@ local midi = {
         ["<M-J>"] = "MoveNoteDownOctave",
         ["<M-l>"] = "MoveNoteRight",
         ["<M-h>"] = "MoveNoteLeft",
-        ["<S-h>"] = "TrimSelectedNoteLeftEdgeToEditCursor",
-        ["<S-l>"] = "TrimSelectedNoteRightEdgeToEditCursor",
-        ["vn"] = "SelectNearestNote",
-        ["vc"] = "SelectNoteClosestToEditCursor",
     },
 }
 

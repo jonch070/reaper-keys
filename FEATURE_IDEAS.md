@@ -51,26 +51,25 @@
   - Actions needed: "Edit: Lengthen notes one grid unit" & "Edit: Shorten notes one grid unit"
   - TODO: Find action IDs and add to actions.lua
 
-- **Note length left or right to cursor** - **✅ IMPLEMENTED**
+- **Note length left or right to cursor** - **TODO: Need Better Bindings**
   - Description: Trim note edges to edit cursor position
   - ✅ Action exists: `TrimSelectedNoteLeftEdgeToEditCursor` (40790)
   - ✅ Action exists: `TrimSelectedNoteRightEdgeToEditCursor` (40791)
-  - ✅ Binding: `Shift+H` (trim left edge to cursor)
-  - ✅ Binding: `Shift+L` (trim right edge to cursor)
+  - ❌ Previous bindings (Shift+H/L) conflict with measure navigation (PrevMeasure/NextMeasure)
+  - TODO: Find non-conflicting bindings (maybe `[`/`]` or `g<`/`g>`?)
 
-- **Shift+H/L to grow note edges (like Alex Ruger/rewgs' setup)** - **✅ IMPLEMENTED**
+- **Shift+H/L to grow note edges (like Alex Ruger/rewgs' setup)** - **TODO: Need Better Bindings**
   - Description: Extend/shrink note boundaries like item edge editing
-  - ✅ Shift+H: Trim left edge to cursor
-  - ✅ Shift+L: Trim right edge to cursor
-  - Similar to item edge trimming but for MIDI notes
+  - Same as "Note length left or right to cursor" above
+  - Need bindings that don't conflict with H/L measure navigation
 
 #### MIDI Note Selection
-- **Select note under cursor (vertical and horizontal)** - **✅ IMPLEMENTED**
+- **Select note under cursor (vertical and horizontal)** - **TODO: Need Better Bindings**
   - Description: Select notes near the cursor position
   - ✅ Action exists: `SelectNearestNote` (40425)
   - ✅ Action exists: `SelectNoteClosestToEditCursor` (40426)
-  - ✅ Binding: `vn` (select nearest note)
-  - ✅ Binding: `vc` (select note closest to edit cursor)
+  - ❌ Previous bindings (vn/vc) conflict with visual timeline mode trigger (v key)
+  - TODO: Find non-conflicting bindings
 
 - **Select all notes at cursor vertical** - **✅ IMPLEMENTED**
   - Description: Select all notes at the same pitch
@@ -197,6 +196,11 @@
   - Needs investigation - timing issue?
 
 #### FX & Browser
+- **Toggle show track FX chain** - **✅ IMPLEMENTED**
+  - Description: Open/close track FX chain window
+  - ✅ Action exists: `ToggleShowFxChain` (_S&M_TOGLFXCHAIN)
+  - ✅ Binding: `<leader>fc` (Space+f+c)
+
 - **Toggle show fx browser**
   - Description: Show/hide FX browser window
   - Check if action exists
