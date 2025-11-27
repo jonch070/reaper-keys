@@ -364,23 +364,23 @@ function actions.insertNoteAtCursorOrTimeSelection()
         local take = reaper.MIDIEditor_GetTake(hwnd)
         if not take then return end
 
+        -- Save original cursor position
+        local orig_cursor = reaper.GetCursorPosition()
+
         -- Move cursor to time selection start
-        reaper.MIDIEditor_OnCommand(hwnd, 40037) -- MIDI: Move edit cursor to start of time selection
+        reaper.SetEditCurPos(start_time, false, false)
 
         -- Insert note at cursor (respects cursor vertical position for pitch)
         reaper.MIDIEditor_OnCommand(hwnd, 40051) -- MIDI: Insert note at edit cursor
 
-        -- Get the last inserted note and extend it to time selection end
-        local _, notecnt, _, _ = reaper.MIDI_CountEvts(take)
-        if notecnt > 0 then
-            -- Get the last note (just inserted)
-            local _, selected, muted, startppq, endppq, chan, pitch, vel =
-                reaper.MIDI_GetNote(take, notecnt - 1)
+        -- The inserted note should now be selected, move cursor to end of time selection
+        reaper.SetEditCurPos(end_time, false, false)
 
-            -- Set its end position to time selection end
-            local end_ppq = reaper.MIDI_GetPPQPosFromProjTime(take, end_time)
-            reaper.MIDI_SetNote(take, notecnt - 1, selected, muted, startppq, end_ppq, chan, pitch, vel, false)
-        end
+        -- Extend selected note end to cursor
+        reaper.MIDIEditor_OnCommand(hwnd, 40791) -- MIDI: Set note ends to edit cursor
+
+        -- Restore original cursor position
+        reaper.SetEditCurPos(orig_cursor, false, false)
     else
         -- No time selection, insert at current edit cursor position
         reaper.MIDIEditor_OnCommand(hwnd, 40051) -- MIDI: Insert note at edit cursor
