@@ -65,7 +65,6 @@ return {
     InsertAutomationItem = 42082,
     InsertDefaultSizeNote = { 40051, midiCommand = true },
     InsertEmptyItem = 40142,
-    InsertNoteAtCursorOrTimeSelection = movements.insertNoteAtCursorOrTimeSelection,
     InsertNote = {
         "MidiTimeSelectionStart",
         "InsertDefaultSizeNote",

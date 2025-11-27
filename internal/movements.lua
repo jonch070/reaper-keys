@@ -354,20 +354,4 @@ function actions.paste()
     for _, track in ipairs(selected) do reaper.SetTrackSelected(track, true) end
 end
 
-function actions.insertNoteAtCursorOrTimeSelection()
-    local hwnd = reaper.MIDIEditor_GetActive()
-    if not hwnd then return end
-
-    local start_time, end_time = reaper.GetSet_LoopTimeRange(false, false, 0, 0, false)
-    if start_time ~= end_time then
-        -- There's a time selection, insert note and fit to selection
-        reaper.MIDIEditor_OnCommand(hwnd, 40037) -- Move edit cursor to start of time selection
-        reaper.MIDIEditor_OnCommand(hwnd, 40051) -- Insert note (auto-selects it)
-        reaper.MIDIEditor_OnCommand(hwnd, 40754) -- Fit selected notes to time selection
-    else
-        -- No time selection, just insert at current cursor position
-        reaper.MIDIEditor_OnCommand(hwnd, 40051) -- MIDI: Insert note at edit cursor
-    end
-end
-
 return actions

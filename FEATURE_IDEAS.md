@@ -105,6 +105,13 @@
   - Long-term exploration of MIDI tooling ecosystem
   - Keep as placeholder for future MIDI enhancements
 
+- **Smart insert note with time selection support** - **TODO**
+  - Current: `a` inserts default-size note at cursor
+  - Wanted: When time selection exists, insert note spanning that selection
+  - Challenge: FitNotes action doesn't reliably fit the just-inserted note
+  - May need custom Lua implementation that directly sets note boundaries
+  - Tabled for future investigation
+
 - **Cut selected notes cuts all notes in the same vertical column**
   - **BUG**: Cuts entire chord instead of just selected note
   - Should only cut the specific selected note, not all notes at same pitch
