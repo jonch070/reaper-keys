@@ -357,6 +357,7 @@ return {
     ClearTransientGuides = 42027,
     AddStretchMarker = 41842,
     AddSnapMarker = 40541,
+    AddTakeMarker = 42385, -- Item: Add/edit take marker at play position or edit cursor
     DeleteStretchMarker = 41859,
     NextStretchMarker = 41860,
     PrevStretchMarker = 41861,
@@ -380,6 +381,10 @@ return {
         "SelectItemsCrossingTimeAndTrackSelection" },
     OpenInMidiEditor = 40153,
     OpenProject = 40025,
+    OpenRecentProject = "_RS4b8f74ce98f11799503f300cfe1d4f0bd8582c9f", -- Script: Yannick_Open project from recent projects list in Popup menu (view project list without paths).lua
+    OpenProjectFolder = "_RSa031ec0ee4c818007d71473b8b5a2bb28497ec22", -- Script: X-Raym_Open project folder in explorer or finder.lua
+    OpenItemSourceInFinder = 42411, -- Open selected item source media in explorer/finder
+    ShowItemProperties = 40009, -- Item properties (F2)
     PasteAbove = { "PrevTrack", "Paste", prefixRepetitionCount = true },
     PasteFxChain = { "_S&M_SMART_PST_FXCHAIN", prefixRepetitionCount = true },
     PasteItem = { 40058, prefixRepetitionCount = true },
@@ -745,6 +750,8 @@ return {
     ToggleSnap = 1157,
     ToggleSolo = 7,
     ToggleSoloItem = 41557,
+    ToggleExclusiveSolo = "_RS7e9734a021c2c867f4abb43fad29e2b59e3d6731", -- Script: me2beats_Toggle exclusive solo for selected tracks.lua
+    AutoSoloTracksOfSelectedItems = "_RS81ea80e7852f40fc296587c1620a8d8dbdfae9f1", -- Script: HeDa_Auto Solo Tracks of Selected Items.lua
     UnsoloAllItems = 41185,
     ToggleAutomaticRecordArm = 40740,
     ToggleStopAtEndOfTimeSelectionIfNoRepeat = 41834,
