@@ -158,7 +158,6 @@ local global = { -- applies both to main and midi
             ["k"] = "AddTakeMarker",
             ["<return>"] = "InsertMarker",
             ["r"] = "InsertRegionFromTimeSelection",
-            ["E"] = "EditRegionOrMarker",
             ["c"] = "InsertClickTrack",
             ["1"] = "InsertTrackFromTemplateSlot1",
             ["2"] = "InsertTrackFromTemplateSlot2",

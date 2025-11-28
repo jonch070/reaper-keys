@@ -14,7 +14,8 @@
       "WebFetch(domain:raw.githubusercontent.com)",
       "WebFetch(domain:github.com)",
       "Bash(git restore:*)",
-      "Bash(lua -e:*)"
+      "Bash(lua -e:*)",
+      "WebFetch(domain:www.extremraym.com)"
     ],
     "deny": [],
     "ask": []

@@ -58,8 +58,7 @@ return {
     AddFx = 40271,
     AddNextNoteToSelection = { 40422, midiCommand = true },
     InsertMarker = 40171,
-    InsertRegionFromTimeSelection = 40174, -- Markers: Insert region from time selection
-    EditRegionOrMarker = 40614, -- Markers: Edit region/marker near cursor
+    InsertRegionFromTimeSelection = 40306, -- Markers: Insert region from time selection and edit...
     AddPrevNoteToSelection = { 40421, midiCommand = true },
     InsertVirtualInstrumentTrack = 40701,
     InsertClickTrack = "_SWS_AWINSERTCLICKTRK",
