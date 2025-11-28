@@ -32,16 +32,26 @@
 
 ### 📋 TODO - Valid Feature Requests
 
-#### 🔴 HIGH PRIORITY - Need Rebinding (Actions Exist, Just Unbound)
+#### 🔴 HIGH PRIORITY - Need Investigation/Implementation
 
-**MIDI Note Editing:**
-1. **Trim note edges to cursor** - See MIDI Note Length section below
+**MIDI Editor Issues:**
+1. **MIDI hjkl navigation broken?** - **🐛 INVESTIGATE**
+   - User reports hjkl not working in MIDI editor
+   - Should be: h/l = grid division, j/k = pitch up/down
+   - Current bindings look correct (timeline_motion and command contexts)
+   - TODO: Test and debug why not working
+
+2. **Trim note edges to cursor** - See MIDI Note Length section below
    - Actions: 40790 (left), 40791 (right)
    - Suggested: `[` / `]` or `<M-[>` / `<M-]>`
+   - User reports these don't work - need testing
 
-2. **Select note at/near cursor** - See MIDI Note Selection section below
+3. **Select note at/near cursor** - See MIDI Note Selection section below
    - Actions: 40425 (nearest), 40426 (closest to cursor)
    - Suggested: `gn` / `gc` or `,` / `.`
+   - Need to verify these actions work in MIDI editor
+
+**All MIDI commands may need testing/debugging before adding bindings**
 
 #### Grid & Snap Workflow
 - **Number keys (12345) for quick grid size selection**
