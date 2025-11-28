@@ -385,6 +385,10 @@ local global = { -- applies both to main and midi
                     ["8"] = "ToggleShowFx8"
                 } },
             } },
+            ["F"] = { "+film", {
+                ["d"] = "MuteUnmuteDialogue",
+                ["t"] = "SoloUnsoloTemp",
+            } },
             ["T"] = { "+timeline", {
                 ["a"] = "AddTimeSignatureMarker",
                 ["e"] = "EditTimeSignatureMarker",
