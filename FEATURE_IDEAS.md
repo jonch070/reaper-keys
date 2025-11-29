@@ -168,9 +168,16 @@
   - Description: Range selection with Shift modifier (like Shift+Click in GUI)
   - Select from current item to target item
 
-- **Select inner item don't break overlapping items - change to custom instead**
-  - **BUG**: Current `SelectInnerItem` behavior breaks crossfades on overlapping items
-  - TODO: Create custom action that preserves overlapping item integrity
+- **Select inner item splits overlapping items - need alternative** - **🔴 HIGH PRIORITY BUG**
+  - **BUG**: Current `iw` (select inner item) behavior splits/cuts overlapping items
+  - Example: Two overlapping items → after `iw` on one → three items (split at overlap boundary)
+  - Root cause: `innerItem` action creates time selection, then some subsequent action splits items
+  - **Wanted**: Just select the item under cursor without splitting or creating time selection
+  - **Possible solutions**:
+    1. Use `SelectItemsUnderEditCursor` (_XENAKIOS_SELITEMSUNDEDCURSELTX) instead
+    2. Create custom Lua function that only selects item without time selection
+    3. Investigate what's triggering the split and prevent it
+  - TODO: Test if SelectItemsUnderEditCursor works as replacement, or implement custom solution
 
 #### Track Management
 - **Toggle record disable (arm) for selected tracks**
@@ -336,7 +343,9 @@
   - Crossfades should be preserved or recreated after operations
 
 - **Breaking of crossfades sometimes when selecting inner item**
-  - Related to above - `SelectInnerItem` breaks crossfades on overlapping items
+  - Related to above and to "Select inner item splits overlapping items" (Item Selection section)
+  - `iw` (inner item) splits items at overlap boundaries, breaking crossfades
+  - See Item Selection & Editing section for detailed analysis and solutions
 
 #### Track Operations
 - **Copy/paste tracks does not preserve sends**
