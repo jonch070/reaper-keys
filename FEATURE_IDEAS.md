@@ -215,6 +215,15 @@
   - **BUG**: Currently navigates to hidden tracks within folders
   - Should skip over hidden tracks when using Shift+J/K
 
+- **Move selected tracks up/down in track order** - **TODO**
+  - Description: Reorder selected tracks by moving them up or down in the track list
+  - Use case: Quickly reorganize tracks without dragging in TCP
+  - REAPER actions exist: "Track: Move selected tracks up one track" / "Track: Move selected tracks down one track"
+  - TODO: Find action IDs (likely in 40000 range)
+  - Suggested bindings: `Shift+K` / `Shift+J` in track context, or `<leader>t` submenu
+  - Alternative: Can be mapped to encoders using ReaLearn for hardware control
+  - Would be useful to have keyboard shortcut as well
+
 #### Solo & Routing
 - **Toggle exclusive solo for selected tracks** - **✅ IMPLEMENTED**
   - Description: Solo selected tracks and unsolo all others
