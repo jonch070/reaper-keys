@@ -59,6 +59,7 @@ return {
     AddNextNoteToSelection = { 40422, midiCommand = true },
     InsertMarker = 40171,
     InsertRegionFromTimeSelection = 40306, -- Markers: Insert region from time selection and edit...
+    JumpToTime = 40069, -- View: Jump (go) to time window
     MuteUnmuteDialogue = "_512e2cfd1b85473787a647eb354e7eba", -- Custom: Mute/Unmute Dialogue
     SoloUnsoloTemp = "_994a7cf488704ee5ae41d5e1b12df597", -- Custom: Solo/UnSolo Temp
     AddPrevNoteToSelection = { 40421, midiCommand = true },

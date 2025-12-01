@@ -397,6 +397,7 @@ local global = { -- applies both to main and midi
             } },
             ["g"] = { "+global", {
                 ["g"] = "SetGridDivision",
+                ["j"] = "JumpToTime",
                 ["q"] = "QuitReaper",
                 ["r"] = "ResetControlDevices",
                 [","] = "ShowPreferences", -- remove in 2.1
