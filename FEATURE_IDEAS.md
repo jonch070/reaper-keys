@@ -429,6 +429,16 @@ All items clarified - see updated descriptions above:
 
 ---
 
+## Troubleshooting
+
+**If you experience severe lag with reaper-keys navigation:**
+- See `TROUBLESHOOTING.md` for the macro_recording lag fix
+- This is a known issue where macro recording gets stuck ON
+- Fix involves editing `/Users/jonathankawchuk/Library/Application Support/REAPER/reaper-extstate.ini`
+- Reference: https://github.com/gwatcha/reaper-keys/issues/92
+
+---
+
 ## Notes
 
 ### Mac Modifier Reference (Confirmed)
