@@ -312,6 +312,12 @@
   - Check if REAPER action exists
 
 #### Navigation
+- **Jump to time/marker/region** - **✅ IMPLEMENTED**
+  - Description: Open jump dialog to navigate to specific time, marker, or region by name
+  - ✅ Action exists: `JumpToTime` (40069)
+  - ✅ Binding: `<leader>gj` (Space+g+j)
+  - Useful for quick navigation without scrolling timeline
+
 - **"``" to return to prev position**
   - Description: Backtick backtick (double backtick) to jump to previous cursor position
   - Like Vim's `` motion
