@@ -168,16 +168,21 @@
   - Description: Range selection with Shift modifier (like Shift+Click in GUI)
   - Select from current item to target item
 
-- **Select inner item splits overlapping items - need alternative** - **🔴 HIGH PRIORITY BUG**
-  - **BUG**: Current `iw` (select inner item) behavior splits/cuts overlapping items
-  - Example: Two overlapping items → after `iw` on one → three items (split at overlap boundary)
-  - Root cause: `innerItem` action creates time selection, then some subsequent action splits items
-  - **Wanted**: Just select the item under cursor without splitting or creating time selection
-  - **Possible solutions**:
-    1. Use `SelectItemsUnderEditCursor` (_XENAKIOS_SELITEMSUNDEDCURSELTX) instead
-    2. Create custom Lua function that only selects item without time selection
-    3. Investigate what's triggering the split and prevent it
-  - TODO: Test if SelectItemsUnderEditCursor works as replacement, or implement custom solution
+- **Select inner item splits overlapping items - need alternative** - **✅ FIXED**
+  - **WAS BUG**: Text objects like `viw` (visual inner item) were splitting/cutting overlapping items
+  - Example: Two overlapping items → after `viw` on one → three items (split at overlap boundary)
+  - Root cause: `innerItem` action created time selection, which triggered splits
+  - **FIX APPLIED**: Added new text object `ie` (inner explicit) that selects without time selection
+  - ✅ Original `iw` preserved for operators that need time selection (like `ciw`, `diw`)
+  - ✅ Use `sie` (select inner explicit) or `vie` to select item without splitting overlaps
+  - ✅ Uses `SelectItemsUnderEditCursor` (_XENAKIOS_SELITEMSUNDEDCURSELTX) action
+  - Note: `siw`, `viw`, `diw`, `ciw` still work but create time selection (may split overlaps)
+
+- **Move item to media source preferred position (BWF start offset)** - **✅ IMPLEMENTED**
+  - Description: Move selected item to its BWF start offset (original recording position)
+  - ✅ Action exists: `MoveItemToMediaSourcePreferredPosition` (40299)
+  - ✅ Binding: `<leader>sp` (Space+s+p)
+  - Useful for aligning multi-take recordings or field recordings with embedded timecode
 
 #### Track Management
 - **Toggle record disable (arm) for selected tracks**
@@ -196,20 +201,59 @@
   - Will revisit with better approach
   - ✅ MousePosition moved from `x` to `gm` (go to mouse) - kept this improvement
 
-- **Hide muted tracks and children**
-  - Description: Visibility command to hide muted tracks and their folder children
-  - Related action might exist, needs action ID
+- **Hide selected tracks and their children** - **✅ IMPLEMENTED**
+  - Description: Hide selected tracks and all their folder children
+  - ✅ Action exists: `HideTracks` (composite: SelectFolder + 41593)
+  - ✅ Binding: `<leader>th` (Space+t+h)
+  - Selects folder children of selected tracks and hides them all together
 
-- **Show all tracks / Unhide all tracks**
+- **Hide muted tracks and children** - **✅ IMPLEMENTED**
+  - Description: Visibility command to hide muted tracks and their folder children
+  - ✅ Action exists: `HideMutedTracksAndChildren` (d1d0d5d74eab4ed098f8e72cdd1ef7ba)
+  - ✅ Binding: `<leader>tH` (Space+t+Shift+H)
+  - This is a custom action that selects muted tracks, their children, and hides them
+
+- **Show all tracks / Unhide all tracks** - **✅ IMPLEMENTED**
   - Description: Unhide all hidden tracks in project
-  - TODO: Find REAPER action for unhiding all tracks
-  - Suggested binding: somewhere in `<leader>v` (view context)
+  - ✅ Action exists: `ShowAllTracks` (30c934d6276b40f999553ab442464ac1)
+  - ✅ Binding: `<leader>ta` (Space+t+a)
+  - This is a custom action that shows all tracks and scrolls to top
+
+- **Move tracks to folder** - **✅ IMPLEMENTED**
+  - Description: Move selected tracks into a folder (opens dialog to select destination folder)
+  - ✅ Action exists: `MoveTracksToFolder` (42786)
+  - ✅ Binding: `<leader>to` (Space+t+o)
+  - Opens a dialog to select which folder to move the selected tracks into
+
+- **Make new folder from tracks and name** - **✅ IMPLEMENTED**
+  - Description: Create a new folder from selected tracks and prompt for folder name
+  - ✅ Action exists: `MakeNewFolderFromTracksAndName` (_9820642174eb4a7eb6ad675f10a4c712)
+  - ✅ Binding: `<leader>tO` (Space+t+Shift+O)
+  - Creates folder from selected tracks and opens dialog to name the folder
+
+- **Make folder from selected tracks** - **✅ IMPLEMENTED**
+  - Description: Create a folder from selected tracks (SWS action, no name prompt)
+  - ✅ Action exists: `MakeFolderFromSelectedTracks` (_SWS_MAKEFOLDER)
+  - ✅ Binding: `<leader>tw` (Space+t+w)
+  - Quickly wraps selected tracks in a folder without prompting for name
+
+- **Improve hide tracks without items commands and bindings** - **TODO**
+  - Current bindings: `<leader>vh` (folder) and `<leader>vH` (selection)
+  - Current bindings are in view context, may be better in track context
+  - Actions: `TrackToggleHideTracksWithoutItemsFolder` and `TrackToggleHideTracksWithoutItemsSelection`
+  - TODO: Review workflow and determine better bindings
+  - Possibly move to `<leader>t` context for consistency with other track visibility commands
 
 - **Relative line numbers for tracks (like vim)**
   - Description: Show track numbers relative to current track (vim-style)
   - Similar to vim's `:set relativenumber`
   - Would help with count-based navigation (e.g., `5j` to jump 5 tracks down)
   - TODO: Research if possible with REAPER API or if needs custom extension
+
+- **hjkl navigation should respect hidden tracks**
+  - **FEATURE REQUEST**: Track navigation (hjkl) should skip over hidden tracks
+  - Should not select or navigate to tracks that are hidden
+  - Applies to all hjkl track navigation, not just folder navigation
 
 - **Shift jk for folder selection should ignore hidden tracks**
   - **BUG**: Currently navigates to hidden tracks within folders
@@ -252,6 +296,18 @@
 - **Insert virtual instrument track does not focus fx search bar**
   - **BUG**: After inserting VI track, FX browser doesn't auto-focus for typing
   - Should focus search field automatically
+
+- **Vim/Finder-like file browsing in media browser**
+  - Description: Keyboard navigation for media browser similar to vim or macOS Finder
+  - hjkl navigation, Enter to preview/insert, ESC to close
+  - Better integration with reaper-keys modal workflow
+  - May also apply to NVK or other browser windows
+
+- **Show action list**
+  - Description: Quick access to REAPER's action list window
+  - ✅ Action exists: 40605 ("Show action list")
+  - TODO: Add binding, possibly under `<leader>v` (view) or `<leader>a` (actions)
+  - Useful for discovering actions and testing commands
 
 #### Project & File Management
 - **Open project from recent projects list (popup menu)** - **✅ IMPLEMENTED**
@@ -339,6 +395,8 @@
 - ~~Move note right/left don't work~~ - Fixed by removing conflicting bindings
 - ~~Next region commands don't work~~ - Fixed with nested bracket syntax
 - ~~Lag for hjkl~~ - Likely fixed with binding optimizations
+- ~~Select inner item splits overlapping items~~ - Fixed by adding new `ie` text object (use `sie` or `vie` instead of `siw`/`viw`)
+- ~~Breaking of crossfades when selecting inner item~~ - Fixed by using SelectItemsUnderEditCursor for `ie` text object
 
 #### Selection & Splitting
 - **SelectItemsAndSplit behavior**
@@ -354,10 +412,12 @@
   - **BUG**: Selection and split operations break item crossfades
   - Crossfades should be preserved or recreated after operations
 
-- **Breaking of crossfades sometimes when selecting inner item**
-  - Related to above and to "Select inner item splits overlapping items" (Item Selection section)
-  - `iw` (inner item) splits items at overlap boundaries, breaking crossfades
-  - See Item Selection & Editing section for detailed analysis and solutions
+- **Breaking of crossfades sometimes when selecting inner item** - **✅ FIXED**
+  - Related to "Select inner item splits overlapping items" bug (now fixed)
+  - `iw` text object was splitting items at overlap boundaries, breaking crossfades
+  - ✅ Fixed by adding new `ie` text object that doesn't create time selection
+  - Use `sie` or `vie` to select items without breaking crossfades
+  - See Item Selection & Editing section (line 171) for fix details
 
 #### Track Operations
 - **Copy/paste tracks does not preserve sends**
