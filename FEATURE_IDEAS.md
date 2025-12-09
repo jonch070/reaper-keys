@@ -185,6 +185,17 @@
   - Useful for aligning multi-take recordings or field recordings with embedded timecode
 
 #### Track Management
+- **Sort selected tracks alphabetically** - **✅ ADDED**
+  - Description: Sort selected tracks in alphabetical order by name
+  - ✅ Action exists: `SortSelectedTracksAlphabetically` (RSaf882e4dbb627a78ab5148a3868a951597a3e810)
+  - TODO: Add binding for quick track organization
+
+- **Select only tracks of selected items** - **✅ ADDED**
+  - Description: Select only the tracks that contain the currently selected items
+  - ✅ Action exists: `SelectOnlyTracksOfSelectedItems` (RSf5a6e5063d8f79a477e73a183032cac347f28da5)
+  - TODO: Add binding for workflow optimization
+  - Useful when you want to apply track operations only to tracks with selected items
+
 - **Toggle record disable (arm) for selected tracks**
   - Description: Toggle record arming on/off for selected tracks
   - ✅ EXISTS: `ArmSelectedTracks` (_XENAKIOS_SELTRAX_RECARMED)

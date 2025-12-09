@@ -570,6 +570,7 @@ return {
     SelectLastOfSelectedTracks = "_XENAKIOS_SELLASTOFSELTRAX",
     SelectLastTouchedTrack = 40505,
     SelectNearestNote = { 40425, midiCommand = true },
+    SelectOnlyTracksOfSelectedItems = "RSf5a6e5063d8f79a477e73a183032cac347f28da5",
     SelectNextNote = { 40413, midiCommand = true },
     SelectNextNoteSamePitch = { 40428, midiCommand = true },
     SelectNoteClosestToEditCursor = { 40426, midiCommand = true },
@@ -860,4 +861,5 @@ return {
     ShowNotesRegionNames = "_S&M_RGN_NAMES",
     ShowNotesRegionSubtitles = "_S&M_RGN_SUBTITLES",
     SoloInFront = 40745,
+    SortSelectedTracksAlphabetically = "RSaf882e4dbb627a78ab5148a3868a951597a3e810",
 }
