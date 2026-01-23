@@ -862,4 +862,24 @@ return {
     ShowNotesRegionSubtitles = "_S&M_RGN_SUBTITLES",
     SoloInFront = 40745,
     SortSelectedTracksAlphabetically = "RSaf882e4dbb627a78ab5148a3868a951597a3e810",
+
+    -- Nate Weiner Tools (different from nvk.tools)
+    -- Install via ReaPack: https://nateweiner.com/dist/reaper/main/index.xml
+    -- Video Cut Navigation (requires ffmpeg: brew install ffmpeg)
+    NateWeinerNextVideoCut = "_RSb27f3d185c90525a24ded398601018c6aafad573", -- Move edit cursor to next video cut
+    NateWeinerPrevVideoCut = "_RS662c16d05066f0e0e07569a6ede78cc8b9921779", -- Move edit cursor to previous video cut
+    -- Routing Doctor
+    NateWeinerRoutingDoctorCheck = "_RS11779d4a114407f9581a2d02c983c187573c8373", -- Routing Doctor - Check routing for errors
+    NateWeinerRoutingDoctorSave = "_RS118e498a2805551e23e473c76ac52bb5dd3da6b2", -- Routing Doctor - Save routing analysis to disk
+    -- Video utilities
+    NateWeinerSetFrameRate = "_RSffa88234af6d0278615a8b8b967c0dbb42a91461", -- Set project frame rate from video
+
+    -- nvk.tools (Nick von Kaenel) - https://nvk.tools
+    -- Premium sound design tools for game audio
+    NVKCreate = "_RS193b2afca78a22323adee152a43f53c519b79c4c", -- nvk_CREATE - Sound design/search/layering
+    NVKSearch = "_RSxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", -- nvk_SEARCH - Universal search (verify ID)
+    NVKVariations = "_RSxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", -- nvk_VARIATIONS - Generate variations (verify ID)
+    NVKWorkflow = "_RSxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", -- nvk_WORKFLOW 2 - Game audio workflow (verify ID)
+    NVKLoopmaker = "_RSxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", -- nvk_LOOPMAKER 2 - Loop creation (verify ID)
+    NVKAutodoppler = "_RSxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", -- nvk_AUTODOPPLER 2 - Doppler effects (verify ID)
 }

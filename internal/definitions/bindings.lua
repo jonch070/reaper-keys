@@ -48,7 +48,6 @@ local global = { -- applies both to main and midi
             ["p"] = "ProjectTimeline",
             ["w"] = "Item",
             ["W"] = "BigItem",
-            ["e"] = "SelectItemsUnderEditCursor",
         } },
     },
     visual_timeline_command = {
@@ -395,6 +394,21 @@ local global = { -- applies both to main and midi
             ["F"] = { "+film", {
                 ["d"] = "MuteUnmuteDialogue",
                 ["t"] = "SoloUnsoloTemp",
+                -- Nate Weiner video tools (requires ffmpeg)
+                ["l"] = "NateWeinerNextVideoCut",       -- next video cut
+                ["h"] = "NateWeinerPrevVideoCut",       -- prev video cut
+                ["r"] = "NateWeinerRoutingDoctorCheck", -- routing doctor - check errors
+                ["R"] = "NateWeinerRoutingDoctorSave",  -- routing doctor - save analysis
+                ["f"] = "NateWeinerSetFrameRate",       -- set frame rate from video
+            } },
+            ["k"] = { "+nvk.tools", {
+                -- nvk.tools (Nick von Kaenel) - https://nvk.tools
+                ["c"] = "NVKCreate",        -- nvk_CREATE - sound design/search
+                ["s"] = "NVKSearch",        -- nvk_SEARCH - universal search
+                ["v"] = "NVKVariations",    -- nvk_VARIATIONS - generate variations
+                ["w"] = "NVKWorkflow",      -- nvk_WORKFLOW 2 - game audio workflow
+                ["l"] = "NVKLoopmaker",     -- nvk_LOOPMAKER 2 - loop creation
+                ["d"] = "NVKAutodoppler",   -- nvk_AUTODOPPLER 2 - doppler effects
             } },
             ["T"] = { "+timeline", {
                 ["a"] = "AddTimeSignatureMarker",

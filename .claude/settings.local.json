@@ -15,7 +15,11 @@
       "WebFetch(domain:github.com)",
       "Bash(git restore:*)",
       "Bash(lua -e:*)",
-      "WebFetch(domain:www.extremraym.com)"
+      "WebFetch(domain:www.extremraym.com)",
+      "WebFetch(domain:forum.cockos.com)",
+      "Bash(git push origin jon-bindings)",
+      "WebFetch(domain:nateweiner.com)",
+      "WebFetch(domain:nvk.tools)"
     ],
     "deny": [],
     "ask": []

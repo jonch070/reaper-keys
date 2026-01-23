@@ -21,6 +21,29 @@
   - Needs deeper integration with reaper-keys' mode system
   - Will revisit after understanding navigation architecture better
 
+#### nvk.tools Integration
+- **nvk.tools (Nick von Kaenel) under `spc k`** - **✅ IMPLEMENTED**
+  - https://nvk.tools - Premium sound design tools for game audio
+  - `spc k c` - nvk_CREATE - Sound design/search/layering GUI
+  - `spc k s` - nvk_SEARCH - Universal REAPER search
+  - `spc k v` - nvk_VARIATIONS - Generate sound variations
+  - `spc k w` - nvk_WORKFLOW 2 - Game audio workflow
+  - `spc k l` - nvk_LOOPMAKER 2 - Zero-crossing loop creation
+  - `spc k d` - nvk_AUTODOPPLER 2 - Doppler effects automation
+  - **NOTE**: Most action IDs need verification - get from Action List
+
+#### Nate Weiner Video Tools
+- **Nate Weiner tools under `spc F` (film)** - **✅ IMPLEMENTED**
+  - https://nateweiner.com/tools/reaper/
+  - Install via ReaPack: `https://nateweiner.com/dist/reaper/main/index.xml`
+  - Requires ffmpeg: `brew install ffmpeg`
+  - `spc F l` - Move edit cursor to next video cut
+  - `spc F h` - Move edit cursor to previous video cut
+  - `spc F r` - Routing Doctor - check routing for errors
+  - `spc F R` - Routing Doctor - save analysis to disk
+  - `spc F f` - Set project frame rate from video
+  - Reference: https://nateweiner.com/tools/reaper/cursor-to-cut/
+
 #### Screensets (Window Layouts)
 - **Load and save screensets for different workspace layouts** - **✅ IMPLEMENTED**
   - Description: Save and recall window configurations (editing, mixing, MIDI layouts)
@@ -357,10 +380,23 @@
 
 - **Window focus and management issues** - **TODO**
   - **BUG**: Many windows don't receive focus when opened by reaper-keys
+  - Examples: Render dialog, reaper-keys help, media explorer
+  - **ROOT CAUSE IDENTIFIED**: In `internal/rk.lua:164-165`, after every command execution:
+    ```lua
+    local defocus_window = main_ctx and actions.FocusTracks or actions.FocusMidiEditor
+    reaper.Main_OnCommand(reaper.NamedCommandLookup(defocus_window), 0)
+    ```
+    This explicitly steals focus back to the main REAPER window after any action runs.
+    Only skipped when `dock_feedback_window = false` (line 162).
+  - **POTENTIAL FIX**: Need to detect when an action opens a window and skip the defocus.
+    Options:
+    1. Maintain a list of "window-opening" actions that should NOT trigger defocus
+    2. Add a flag/attribute to actions that open windows (`opens_window = true`)
+    3. Check if a new window exists after action execution before defocusing
+    4. Remove the defocus entirely (may cause other issues with feedback window)
   - Command+W doesn't close windows (expected macOS behavior)
   - Command+Tilde doesn't cycle through windows (expected macOS behavior)
   - General window management needs improvement
-  - May require changes to how windows are opened/focused
 
 - **MIDI note velocity controls** - **TODO**
   - Description: Keyboard shortcuts for adjusting note velocities
@@ -379,6 +415,14 @@
   - Check if REAPER action exists
 
 #### Navigation
+- **Item navigation (w/e/b) should work with mouse-selected tracks** - **TODO**
+  - Description: Timeline motions (w/e/b) should work on tracks selected with mouse, not just reaper-keys
+  - Current behavior: w/e/b only navigate items on tracks selected via reaper-keys commands
+  - Wanted behavior: w/e/b should work on any selected tracks, regardless of selection method
+  - Issue: reaper-keys likely has internal state tracking that doesn't update on mouse selection
+  - TODO: Investigate how to sync reaper-keys track selection state with REAPER's native track selection
+  - This would allow seamless workflow mixing mouse and keyboard selection
+
 - **Jump to time/marker/region** - **✅ IMPLEMENTED**
   - Description: Open jump dialog to navigate to specific time, marker, or region by name
   - ✅ Action exists: `JumpToTime` (40069)
