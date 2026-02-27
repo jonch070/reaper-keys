@@ -61,6 +61,7 @@ return {
     InsertRegionFromTimeSelection = 40306, -- Markers: Insert region from time selection and edit...
     JumpToTime = 40069, -- View: Jump (go) to time window
     MuteUnmuteDialogue = "_512e2cfd1b85473787a647eb354e7eba", -- Custom: Mute/Unmute Dialogue
+    MuteInnerItem = "_S&M_MUTEINNERITEM", -- Custom: Mute Inner Item
     SoloUnsoloTemp = "_994a7cf488704ee5ae41d5e1b12df597", -- Custom: Solo/UnSolo Temp
     AddPrevNoteToSelection = { 40421, midiCommand = true },
     InsertVirtualInstrumentTrack = 40701,
@@ -766,6 +767,7 @@ return {
     ToggleShowFxChain = "_S&M_TOGLFXCHAIN",
     ToggleShowTakeFxChain = 40638,
     ToggleShowFx = "_S&M_WNTGL5",
+    ToggleGridLines = 40145,
     ToggleShowSelectedEnvelope = 40884,
     ToggleShowTracksInMixer = 41592,
     ToggleSnap = 1157,
@@ -833,6 +835,10 @@ return {
     ShowLayouts = 40422,
     ShowMasterFxChain = 40846,
     ShowMediaExplorer = 50124,
+    ShowAndFocusMediaExplorer = lib.ShowAndFocusMediaExplorer,
+    ShowAndFocusActionList = lib.ShowAndFocusActionList,
+    ShowAndFocusPreferences = lib.ShowAndFocusPreferences,
+    OpenInMidiEditorAndFocus = { "OpenInMidiEditor", "FocusMidiEditor" },
     ShowMixer = 40078,
     ShowMonitoringFx = 41882,
     ShowNavigator = 40268,

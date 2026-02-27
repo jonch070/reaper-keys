@@ -92,4 +92,27 @@ function library.ResetFeedbackWindow()
   reaper_state.setKeys("feedback", {open = false})
 end
 
+function library.ShowAndFocusWindow(action_id, window_title)
+  reaper.Main_OnCommand(action_id, 0) -- native toggle (open/close)
+  local hwnd = reaper.JS_Window_Find(window_title, false)
+  if hwnd then
+    reaper.defer(function()
+      reaper.JS_Window_SetForeground(hwnd)
+      reaper.JS_Window_SetFocus(hwnd)
+    end)
+  end
+end
+
+function library.ShowAndFocusMediaExplorer()
+  library.ShowAndFocusWindow(50124, "Media Explorer")
+end
+
+function library.ShowAndFocusActionList()
+  library.ShowAndFocusWindow(40605, "Action")
+end
+
+function library.ShowAndFocusPreferences()
+  library.ShowAndFocusWindow(40016, "Preference")
+end
+
 return library

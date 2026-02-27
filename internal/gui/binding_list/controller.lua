@@ -151,6 +151,15 @@ function binding_list.open(state)
   view.window:open()
   view.window.state.focusedElm = view.elements.query
 
+  -- Focus the gfx window so OS keyboard events reach it immediately
+  reaper.defer(function()
+    local hwnd = reaper.JS_Window_Find("Reaper Keys Binding List", false)
+    if hwnd then
+      reaper.JS_Window_SetForeground(hwnd)
+      reaper.JS_Window_SetFocus(hwnd)
+    end
+  end)
+
   GUI.func = updateLoop
   GUI.funcTime = 0
   GUI.Main()

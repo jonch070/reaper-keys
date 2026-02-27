@@ -178,6 +178,21 @@
   - ✅ Binding: `<leader>oP` (Space+o+Shift+P)
 
 #### Item Selection & Editing
+- **Time-based item selection workflow improvements** - **TODO**
+  - Description: Better keyboard access to time-based selection commands
+  - ✅ Actions already exist:
+    - `RegionSelectItems` (40717) - Select all items in current time selection
+    - `SelectItemsCrossingTimeAndTrackSelection` (40718) - Select items on selected tracks in current time selection
+  - ✅ Related actions available:
+    - `SelectAllItems` (40182) - Select all items in project
+    - `SelectItems` = alias for `SelectItemsCrossingTimeAndTrackSelection`
+  - **TODO**: Create intuitive binding scheme for time-based selection
+  - Suggested workflow:
+    - `s` = current items in time+track selection
+    - `S` = all items in time selection (40717)
+    - `<M-s>` = items on selected tracks in time selection (40718)
+  - Alternative: Group under `<leader>s` prefix for discovery
+
 - **Non-contiguous selection - items and midi notes under cursor with "add to selection"**
   - Description: Like Superhuman/Linear's 'x' key - add/remove from selection toggle
   - Similar to Command+Click but keyboard-driven
