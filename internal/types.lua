@@ -1,16 +1,17 @@
 ---@meta
 
 ---@alias Context "midi"|"main"|"global"
-
 ---@alias Mode "normal"|"visual_track"|"visual_timeline"
-
 ---@alias ReaProject number
+---@alias TimelineSelectionSide "left"|"right"
+
+---@class Completion
 
 ---@class Command
----@field action_keys string[]
----@field action_sequence string[]
+---@field action_keys Action[]
+---@field action_sequence ActionSequence
 ---@field context Context
----@field mode string "normal"|"insert" ?
+---@field mode Mode
 
 ---@class State
 ---@field key_sequence string
@@ -19,7 +20,7 @@
 ---@field last_searched_track_name string
 ---@field context Context
 ---@field macro_register string
----@field timeline_selection_side string
+---@field timeline_selection_side TimelineSelectionSide
 ---@field last_track_name_search_direction_was_forward boolean
 ---@field last_command Command
 ---@field visual_track_pivot_i number
@@ -29,14 +30,4 @@
 ---@field context Context
 
 ---@alias KeyCommand { [string]: string | {[1]:string, [2]:KeyCommand[]}}
-
----@class Definition
----@field command KeyCommand[]
----@field timeline_motion KeyCommand[]
----@field timeline_operator KeyCommand[]
----@field timeline_selector KeyCommand[]
----@field track_motion? KeyCommand[] main context only
----@field track_operator? KeyCommand[] main context only
----@field track_selector? KeyCommand[] main context only
----@field visual_timeline_command? KeyCommand[]
----@field visual_track_command? KeyCommand[]  main context only
+---@alias Definition table<ActionType, KeyCommand[]>

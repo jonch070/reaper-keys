@@ -1,21 +1,33 @@
-local lib = require 'library.library'                  -- functions specific to reaper-keys i.e. macros
 local movements = require 'movements'
+---compatibility for reaper-keys <= 2.0.0-a18
+local lib = {
+    marks = require 'marks',
+    state = {
+        setModeNormal = movements.setModeNormal,
+        setModeVisualTimeline = movements.setModeVisualTimeline,
+        setModeVisualTrack = movements.setModeVisualTrack,
+        switchTimelineSelectionSide = movements.switchTimelineSelectionSide,
+    },
+    ResetFeedbackWindow = movements.ResetFeedbackWindow,
+    matchTrackNameBackward = movements.matchTrackNameBackward,
+    matchTrackNameForward = movements.matchTrackNameForward,
+    ShowAndFocusMediaExplorer = movements.ShowAndFocusMediaExplorer,
+    ShowAndFocusActionList = movements.ShowAndFocusActionList,
+    ShowAndFocusPreferences = movements.ShowAndFocusPreferences,
+}
 
 ---@alias ActionPart integer | string | function
 
 ---@class ActionTable
 ---@field repetitions? number Repetitions supplied in actions.lua
 ---@field prefixedRepetitions? number Repetitions supplied by user
----@field registerAction? boolean A (mark) function that operates on a
---  register, single character, passed as argument
+---@field setTrackSelection? boolean
+---@field setTimeSelection? boolean
+---@field registerAction? boolean A (mark) function that operates on a register, a single character, passed as argument
+---@field register? string Register for registerAction
 ---@field midiCommand? boolean
 ---@field toTrack? boolean Special case for toTrack function
-
 ---@alias Action ActionPart | ActionTable
-
----@alias ActionSequence { [1]:string[], [2]:fun(action: Action) }
-
----@alias ActionModes {all_modes: ActionSequence[], normal: ActionSequence[], visual_timeline: ActionSequence[]}
 
 -- Here are some predefined commands that you can use in bindings.lua e.g to map
 -- abcd => ActivateNextMidiItem instead of abcd => 40833.
@@ -653,7 +665,6 @@ return {
     ClearSelectedTimeline = movements.clearSelectedTimeline,
     ClearTimelineSelectionAndSetModeVisualTimeline = { "ClearSelectedTimeline", "SetModeVisualTimeline" },
     SetModeVisualTrack = lib.state.setModeVisualTrack,
-    SetModeRecord = lib.state.setModeRecord,
     SetProjectTimebaseToBeatsPosLengthAndRate = "_SWS_AWTBASEBEATALL",
     SetProjectTimebaseToBeatsPos = "_SWS_AWTBASEBEATPOS",
     SetProjectTimebaseToTime = "_SWS_AWTBASETIME",
@@ -868,6 +879,10 @@ return {
     ShowNotesRegionSubtitles = "_S&M_RGN_SUBTITLES",
     SoloInFront = 40745,
     SortSelectedTracksAlphabetically = "RSaf882e4dbb627a78ab5148a3868a951597a3e810",
+    ShowMediaItemProperties = 40009,
+    ShowMediaItemSourceProperties = 40011,
+    TogglePreFxVolumeEnvelope = 40408,
+    ToggleDisplayVisibleEnvelopesInLanes = 40891,
 
     -- Nate Weiner Tools (different from nvk.tools)
     -- Install via ReaPack: https://nateweiner.com/dist/reaper/main/index.xml
