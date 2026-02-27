@@ -491,13 +491,13 @@ end
 
 function actions.ShowAndFocusWindow(action_id, window_title)
     reaper.Main_OnCommand(action_id, 0) -- native toggle (open/close)
-    local hwnd = reaper.JS_Window_Find(window_title, false)
-    if hwnd then
-        reaper.defer(function()
+    reaper.defer(function()
+        local hwnd = reaper.JS_Window_Find(window_title, false)
+        if hwnd then
             reaper.JS_Window_SetForeground(hwnd)
             reaper.JS_Window_SetFocus(hwnd)
-        end)
-    end
+        end
+    end)
 end
 
 function actions.ShowAndFocusMediaExplorer()
@@ -505,7 +505,19 @@ function actions.ShowAndFocusMediaExplorer()
 end
 
 function actions.ShowAndFocusActionList()
-    actions.ShowAndFocusWindow(40605, "Action")
+    reaper.Main_OnCommand(40605, 0)
+    reaper.defer(function()
+        local hwnd = reaper.JS_Window_Find("Action", false)
+        if hwnd then
+            reaper.JS_Window_SetForeground(hwnd)
+            local filter = reaper.JS_Window_FindChild(hwnd, "Filter", false)
+            if filter then
+                reaper.JS_Window_SetFocus(filter)
+            else
+                reaper.JS_Window_SetFocus(hwnd)
+            end
+        end
+    end)
 end
 
 function actions.ShowAndFocusPreferences()
