@@ -143,12 +143,22 @@ local global = { -- applies both to main and midi
             ["m"] = "ToggleMetronome",
             ["t"] = "ToggleStopAtEndOfTimeSelectionIfNoRepeat",
             ["x"] = "ToggleAutoCrossfade",
+            ["T"] = "ToggleTrimContentBehindItems",
             ["e"] = "ToggleEnvelopePointsMoveWithItems",
             ["c"] = "CycleRippleEditMode",
             f = "SoloInFront",
             F = "ResetFeedbackWindow",
             g = "ToggleGridLines", -- Toggle grid lines
             M = "ToggleMasterMonoStereo",
+        } },
+        ["g"] = { "+grid", {
+            ["1"] = "SetGridWhole",
+            ["2"] = "SetGridHalf",
+            ["3"] = "SetGridQuarter",
+            ["4"] = "SetGridEighth",
+            ["5"] = "SetGridSixteenth",
+            ["6"] = "SetGridThirtySecond",
+            -- TODO: bind GridFiner / GridCoarser here once good keys confirmed (g[ / g] conflict with glue item ends)
         } },
         ["i"] = { "+insert", {
             ["f"] = "InsertMediaFile",
@@ -408,6 +418,7 @@ local global = { -- applies both to main and midi
                 ["r"] = "NateWeinerRoutingDoctorCheck", -- routing doctor - check errors
                 ["R"] = "NateWeinerRoutingDoctorSave",  -- routing doctor - save analysis
                 ["f"] = "NateWeinerSetFrameRate",       -- set frame rate from video
+                ["S"] = "SyncParentProjectsOnPlayback", -- sync parent projects on subproject playback
             } },
             ["k"] = { "+nvk.tools", {
                 -- nvk.tools (Nick von Kaenel) - https://nvk.tools
@@ -474,6 +485,7 @@ local global = { -- applies both to main and midi
                 } },
                 r = "RenderProject",
                 R = "RenderProjectWithLastSetting",
+                P = "SaveItemAndRenderProjectProxy",
             } },
         } },
     },
@@ -593,11 +605,15 @@ local main = {
         [";"] = "MoveItemToEditCursor",
         ["dd"] = "CutTrack",
         ["aa"] = "ArmTracks",
+        ["ae"] = "ToggleExclusiveRecordArm",
+        ["au"] = "ClearAllRecordArm",
         ["O"] = "EnterTrackAbove",
         ["o"] = "EnterTrackBelow",
         ["p"] = "Paste",
         ["<C-v>"] = "Paste",
         ["yy"] = "CopyTrack",
+        ["yd"] = "DuplicateTrack",
+        ["yD"] = "DuplicateTrackEmpty",
         ["zz"] = "ScrollToSelectedTracks",
         ["%"] = "SplitItemsAtEditCursor",
         ["~"] = "MarkedTracks",

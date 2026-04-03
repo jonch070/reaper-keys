@@ -327,6 +327,30 @@ function actions.setGridDivision()
     if division then reaper.SetProjectGrid(0, division) end
 end
 
+local function setBothGrids(division)
+    reaper.SetProjectGrid(0, division)
+    reaper.SetMIDIEditorGrid(0, division)
+end
+
+function actions.setGridWhole()         setBothGrids(1)         end
+function actions.setGridHalf()          setBothGrids(0.5)       end
+function actions.setGridQuarter()       setBothGrids(0.25)      end
+function actions.setGridEighth()        setBothGrids(0.125)     end
+function actions.setGridSixteenth()     setBothGrids(0.0625)    end
+function actions.setGridThirtySecond()  setBothGrids(0.03125)   end
+
+function actions.gridFiner()
+    reaper.Main_OnCommand(40783, 0) -- Grid: Adjust by 1/2
+    local _, division = reaper.GetSetProjectGrid(0, false, 0, 0, 0)
+    reaper.SetMIDIEditorGrid(0, division)
+end
+
+function actions.gridCoarser()
+    reaper.Main_OnCommand(40786, 0) -- Grid: Adjust by 2
+    local _, division = reaper.GetSetProjectGrid(0, false, 0, 0, 0)
+    reaper.SetMIDIEditorGrid(0, division)
+end
+
 function actions.clearSelectedTimeline()
     local pos = reaper.GetCursorPosition()
     reaper.GetSet_LoopTimeRange(true, false, pos, pos, false)
