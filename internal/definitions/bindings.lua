@@ -221,6 +221,7 @@ local global = { -- applies both to main and midi
                 V = "ShowVideoWindow",
                 w = "ShowWiringDiagram",
                 x = "ShowAndFocusMediaExplorer",
+                z = "ToggleZenMode",
             } },
             ["o"] = { "+open", {
                 ["i"] = "OpenItemSourceInFinder",

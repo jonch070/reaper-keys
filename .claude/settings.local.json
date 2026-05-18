@@ -19,7 +19,12 @@
       "WebFetch(domain:forum.cockos.com)",
       "Bash(git push origin jon-bindings)",
       "WebFetch(domain:nateweiner.com)",
-      "WebFetch(domain:nvk.tools)"
+      "WebFetch(domain:nvk.tools)",
+      "Bash(git push:*)",
+      "Bash(git fetch:*)",
+      "Bash(git merge:*)",
+      "Bash(git:*)",
+      "Bash(gemini:*)"
     ],
     "deny": [],
     "ask": []

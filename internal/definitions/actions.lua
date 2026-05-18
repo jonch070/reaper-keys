@@ -853,6 +853,7 @@ return {
     PlayAndSkipTimeSelection = 40317,
     ToggleShowTrackRouting = 40293,
     ToggleShowMasterTrack = 41050,
+    ToggleZenMode = "_0b3d1dd424a441599e0e32d4af8e87d6",
     ShowBigClock = 40378,
     ShowDocker = 40279,
     ShowEnvelopeManager = 42678,

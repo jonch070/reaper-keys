@@ -309,10 +309,19 @@
   - Should skip over hidden tracks when using Shift+J/K
 
 - **Move selected tracks up/down in track order** - **✅ SOLVED**
-  - Description: Reorder selected tracks by moving them up or down in the track list
-  - ✅ User implemented via normal REAPER action bindings
-  - Can also be mapped to encoders using ReaLearn for hardware control
-  - Note: Shift+J/K already used for folder navigation
+   - Description: Reorder selected tracks by moving them up or down in the track list
+   - ✅ User implemented via normal REAPER action bindings
+   - Can also be mapped to encoders using ReaLearn for hardware control
+   - Note: Shift+J/K already used for folder navigation
+
+- **Lane support (track lanes / fixed lanes)**
+   - Description: Add keybindings for REAPER's track lane system (fixed lanes for comping, takes, etc.)
+   - Actions needed:
+     - Toggle fixed lanes display
+     - Navigate between lanes
+     - Lane comping actions (select lane, move items between lanes)
+     - Explore what lane actions REAPER exposes
+   - TODO: Research available lane-related action IDs
 
 #### Solo & Routing
 - **Toggle exclusive solo for selected tracks** - **✅ IMPLEMENTED**
